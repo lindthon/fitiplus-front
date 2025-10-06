@@ -1,8 +1,8 @@
-.login-content {
+.register-content {
   --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-.login-container {
+.register-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,7 +10,7 @@
   padding: 20px;
 }
 
-.login-card {
+.register-card {
   width: 100%;
   max-width: 400px;
   border-radius: 16px;
@@ -19,7 +19,7 @@
   background: rgba(255, 255, 255, 0.95);
 }
 
-.login-title {
+.register-title {
   text-align: center;
   font-size: 1.8rem;
   font-weight: 600;
@@ -27,14 +27,14 @@
   margin-bottom: 8px;
 }
 
-.login-subtitle {
+.register-subtitle {
   text-align: center;
   font-size: 0.9rem;
   margin: 0;
   opacity: 0.8;
 }
 
-.login-input-item {
+.register-input-item {
   margin-bottom: 16px;
   --border-radius: 12px;
   --background: rgba(255, 255, 255, 0.8);
@@ -47,41 +47,30 @@
   --padding-bottom: 12px;
 }
 
-.login-input-item ion-label {
+.register-input-item ion-label {
   font-weight: 500;
   color: #34495e;
   margin-bottom: 8px;
 }
 
-.login-input-item ion-input {
+.register-input-item ion-input {
   --padding-start: 0;
   --padding-end: 0;
   font-size: 1rem;
 }
 
-.login-input-item ion-icon {
+.register-input-item ion-icon {
   color: #667eea;
   margin-right: 12px;
 }
 
-.login-password-toggle {
+.register-password-toggle {
   --color: #667eea;
   --padding-start: 8px;
   --padding-end: 8px;
 }
 
-.forgot-password-container {
-  text-align: right;
-  margin-bottom: 24px;
-}
-
-.forgot-password-button {
-  --color: #667eea;
-  font-size: 0.9rem;
-  text-transform: none;
-}
-
-.login-button {
+.register-button {
   --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   --background-hover: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
   --border-radius: 12px;
@@ -94,24 +83,24 @@
   box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
 }
 
-.login-button:disabled {
+.register-button:disabled {
   --background: #bdc3c7;
   --background-hover: #bdc3c7;
   box-shadow: none;
 }
 
-.register-link-container {
+.login-link-container {
   text-align: center;
   padding-top: 16px;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.register-link-container p {
+.login-link-container p {
   margin: 0 0 8px 0;
   font-size: 0.9rem;
 }
 
-.login-register-button {
+.register-back-to-login-button {
   --color: #667eea;
   font-size: 0.9rem;
   text-transform: none;
@@ -119,7 +108,7 @@
 }
 
 /* Animaciones */
-.login-card {
+.register-card {
   animation: slideUp 0.6s ease-out;
 }
 
@@ -134,17 +123,25 @@
   }
 }
 
-.login-input-item {
+.register-input-item {
   animation: fadeInUp 0.8s ease-out;
   animation-fill-mode: both;
 }
 
-.login-input-item:nth-child(1) {
+.register-input-item:nth-child(1) {
   animation-delay: 0.1s;
 }
 
-.login-input-item:nth-child(2) {
+.register-input-item:nth-child(2) {
   animation-delay: 0.2s;
+}
+
+.register-input-item:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.register-input-item:nth-child(4) {
+  animation-delay: 0.4s;
 }
 
 @keyframes fadeInUp {
@@ -160,43 +157,43 @@
 
 /* Responsive */
 @media (max-width: 480px) {
-  .login-container {
+  .register-container {
     padding: 16px;
   }
 
-  .login-card {
+  .register-card {
     max-width: 100%;
   }
 
-  .login-title {
+  .register-title {
     font-size: 1.6rem;
   }
 }
 
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
-  .login-card {
+  .register-card {
     background: rgba(44, 62, 80, 0.95);
   }
 
-  .login-title {
+  .register-title {
     color: #ecf0f1;
   }
 
-  .login-subtitle {
+  .register-subtitle {
     color: #bdc3c7;
   }
 
-  .login-input-item {
+  .register-input-item {
     --background: rgba(52, 73, 94, 0.8);
     --border-color: rgba(255, 255, 255, 0.1);
   }
 
-  .login-input-item ion-label {
+  .register-input-item ion-label {
     color: #ecf0f1;
   }
 
-  .register-link-container {
+  .login-link-container {
     border-top-color: rgba(255, 255, 255, 0.1);
   }
 }
@@ -228,6 +225,7 @@
   padding: 0 16px;
   color: var(--ion-color-medium);
   font-size: 0.9rem;
+  position: relative;
   z-index: 1;
 }
 

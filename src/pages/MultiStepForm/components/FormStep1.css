@@ -1,0 +1,185 @@
+/* FormStep1.css - Estilos para el primer paso del formulario */
+
+.form-step-card {
+  margin: 16px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.step-title {
+  text-align: center;
+  padding: 0;
+}
+
+.step-title h2 {
+  margin: 0 0 8px 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.step-title p {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.form-fields {
+  padding: 0 16px;
+}
+
+.form-input-item {
+  --background: transparent;
+  --border-radius: 12px;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 8px;
+  --padding-bottom: 8px;
+  margin-bottom: 16px;
+}
+
+.form-input-item ion-label {
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.form-input-item ion-input {
+  --background: #f8f9fa;
+  --border-radius: 8px;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  font-size: 1rem;
+}
+
+/* Gender Selection Cards */
+.gender-selection-container {
+  margin: 24px 0;
+}
+
+.gender-label {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.gender-label p {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--ion-color-dark);
+}
+
+.gender-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.gender-card {
+  background: #f8f9fa;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  padding: 20px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.gender-card:hover {
+  background: #e9ecef;
+  border-color: var(--ion-color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.gender-card.selected {
+  background: var(--ion-color-primary);
+  border-color: var(--ion-color-primary);
+  color: white;
+}
+
+.gender-card.selected:hover {
+  background: var(--ion-color-primary-shade);
+  border-color: var(--ion-color-primary-shade);
+}
+
+.gender-card-text {
+  font-weight: 600;
+  font-size: 1.1rem;
+  line-height: 1.3;
+}
+
+.gender-card.selected .gender-card-text {
+  color: white;
+}
+
+/* Error Text */
+.error-text {
+  font-size: 0.85rem;
+  margin-top: 4px;
+  display: block;
+}
+
+/* Form Actions */
+.form-actions {
+  padding: 16px;
+  margin-top: 24px;
+}
+
+.next-button {
+  --border-radius: 12px;
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .gender-cards {
+    gap: 12px;
+  }
+
+  .gender-card {
+    min-height: 65px;
+    padding: 18px 20px;
+  }
+
+  .gender-card-text {
+    font-size: 1rem;
+  }
+}
+
+/* Animation for card selection */
+.gender-card {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Focus states for accessibility */
+.gender-card:focus {
+  outline: 2px solid var(--ion-color-primary);
+  outline-offset: 2px;
+}
+
+/* Invalid state */
+.form-input-item.ion-invalid ion-input {
+  --border-color: var(--ion-color-danger);
+  --highlight-color: var(--ion-color-danger);
+}

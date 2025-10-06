@@ -11,9 +11,12 @@ import {
 import { IonReactRouter } from '@ionic/react-router';
 import { ellipse, square, triangle } from 'ionicons/icons';
 import { Redirect, Route } from 'react-router-dom';
-import ProtectedRoute from './components/ProtectedRoute';
+import SimpleAuthCheck from './components/SimpleAuthCheck';
 import { ROUTES } from './config/routes';
 import Login from './pages/Login';
+import MultiStepForm from './pages/MultiStepForm';
+import Presentation from './pages/Presentation';
+import Register from './pages/Register';
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
@@ -57,8 +60,17 @@ const App: React.FC = () => (
         <Route exact path={ROUTES.LOGIN}>
           <Login />
         </Route>
+        <Route exact path={ROUTES.REGISTER}>
+          <Register />
+        </Route>
+        <Route exact path={ROUTES.PRESENTATION}>
+          <Presentation />
+        </Route>
+        <Route exact path={ROUTES.MULTI_STEP_FORM}>
+          <MultiStepForm />
+        </Route>
         <Route path={ROUTES.TABS}>
-          <ProtectedRoute>
+          <SimpleAuthCheck>
             <IonTabs>
               <IonRouterOutlet>
                 <Route exact path={ROUTES.TAB1}>
@@ -89,7 +101,7 @@ const App: React.FC = () => (
                 </IonTabButton>
               </IonTabBar>
             </IonTabs>
-          </ProtectedRoute>
+          </SimpleAuthCheck>
         </Route>
         <Route exact path={ROUTES.ROOT}>
           <Redirect to={ROUTES.LOGIN} />

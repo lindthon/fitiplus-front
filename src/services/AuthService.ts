@@ -16,6 +16,7 @@ export interface AuthResponse {
   user?: User;
   token?: string;
   message?: string;
+  isOnboardingCompleted?: boolean;
 }
 
 class AuthService {
@@ -68,6 +69,7 @@ class AuthService {
           user,
           token,
           message: 'Inicio de sesión exitoso',
+          isOnboardingCompleted: false,
         };
       } else {
         return {

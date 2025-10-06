@@ -1,0 +1,293 @@
+/* FormStep2.css - Estilos para el segundo paso del formulario */
+
+.form-step-card {
+  margin: 16px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.step-title {
+  text-align: center;
+  padding: 0;
+}
+
+.step-title h2 {
+  margin: 0 0 8px 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.step-title p {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.form-fields {
+  padding: 0 16px;
+}
+
+/* Slider Containers */
+.slider-container {
+  margin: 24px 0;
+  padding: 16px;
+  background: var(--ion-color-light);
+  border-radius: 12px;
+}
+
+.slider-label {
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.slider-label p {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--ion-color-primary);
+}
+
+/* Dark mode text colors */
+@media (prefers-color-scheme: dark) {
+  .slider-label p {
+    color: var(--ion-color-primary-tint);
+  }
+}
+
+.ion-color-dark .slider-label p {
+  color: var(--ion-color-primary-tint);
+}
+
+/* IonRange Customization */
+ion-range {
+  --bar-background: var(--ion-color-medium);
+  --bar-background-active: var(--ion-color-primary);
+  --bar-height: 6px;
+  --bar-border-radius: 3px;
+  --knob-background: var(--ion-color-primary);
+  --knob-size: 24px;
+  --pin-background: var(--ion-color-primary);
+  --pin-color: white;
+  --pin-font-size: 14px;
+  --pin-font-weight: 600;
+}
+
+/* Dark mode range customization */
+@media (prefers-color-scheme: dark) {
+  ion-range {
+    --bar-background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.ion-color-dark ion-range {
+  --bar-background: rgba(255, 255, 255, 0.2);
+}
+
+ion-range::part(tick) {
+  background: var(--ion-color-medium);
+  width: 2px;
+  height: 8px;
+}
+
+ion-range::part(tick-active) {
+  background: var(--ion-color-primary);
+}
+
+/* Radio Group Containers */
+.radio-group-container {
+  margin: 40px 0;
+}
+
+.radio-group-label {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.radio-group-label p {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--ion-color-dark);
+}
+
+.radio-group-container ion-item {
+  --background: transparent;
+  --border-radius: 12px;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 20px;
+  --padding-bottom: 20px;
+  margin-bottom: 16px;
+  border: 2px solid var(--ion-color-medium);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.radio-group-container ion-item:hover {
+  border-color: var(--ion-color-primary);
+  background: var(--ion-color-light);
+}
+
+.radio-group-container ion-item.item-radio-checked {
+  border-color: var(--ion-color-primary);
+  background: var(--ion-color-primary-tint);
+}
+
+.radio-group-container ion-radio {
+  --color: var(--ion-color-primary);
+  --color-checked: var(--ion-color-primary);
+}
+
+.radio-group-container ion-label {
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--ion-text-color);
+}
+
+/* Dark mode radio labels */
+@media (prefers-color-scheme: dark) {
+  .radio-group-container ion-label {
+    color: var(--ion-color-light) !important;
+  }
+}
+
+.ion-color-dark .radio-group-container ion-label {
+  color: var(--ion-color-light) !important;
+}
+
+/* Error Text */
+.error-text {
+  font-size: 0.85rem;
+  margin-top: 8px;
+  display: block;
+  text-align: center;
+}
+
+/* Form Actions */
+.form-actions {
+  padding: 16px;
+  margin-top: 24px;
+  display: flex;
+  gap: 12px;
+}
+
+.prev-button {
+  --border-radius: 12px;
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+  font-weight: 600;
+  font-size: 1rem;
+  flex: 1;
+}
+
+.next-button {
+  --border-radius: 12px;
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+  font-weight: 600;
+  font-size: 1rem;
+  flex: 2;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .slider-container {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .radio-group-container ion-item {
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .radio-group-container ion-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .radio-group-container ion-item.item-radio-checked {
+    background: rgba(var(--ion-color-primary-rgb), 0.2);
+  }
+}
+
+/* Ionic Dark Mode Classes */
+.ion-color-dark .slider-container {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ion-color-dark .radio-group-container ion-item {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.ion-color-dark .radio-group-container ion-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.ion-color-dark .radio-group-container ion-item.item-radio-checked {
+  background: rgba(var(--ion-color-primary-rgb), 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .slider-container {
+    margin: 16px 0;
+    padding: 12px;
+  }
+
+  .slider-label p {
+    font-size: 1rem;
+  }
+
+  .radio-group-container {
+    margin: 24px 0;
+  }
+
+  .radio-group-label p {
+    font-size: 1rem;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .prev-button,
+  .next-button {
+    flex: 1;
+  }
+}
+
+/* Animation for sliders */
+.slider-container {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Focus states for accessibility */
+.radio-group-container ion-item:focus {
+  outline: 2px solid var(--ion-color-primary);
+  outline-offset: 2px;
+}
+
+/* Invalid state */
+.slider-container.ion-invalid ion-range {
+  --bar-background-active: var(--ion-color-danger);
+  --knob-background: var(--ion-color-danger);
+  --pin-background: var(--ion-color-danger);
+}
+
+.radio-group-container.ion-invalid ion-item {
+  border-color: var(--ion-color-danger);
+}

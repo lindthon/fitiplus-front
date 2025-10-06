@@ -2,6 +2,9 @@
 export const ROUTES = {
   // Rutas públicas
   LOGIN: '/login',
+  REGISTER: '/register',
+  PRESENTATION: '/presentation',
+  MULTI_STEP_FORM: '/form',
   ROOT: '/',
 
   // Rutas protegidas

@@ -1,0 +1,248 @@
+/* FormStep3.css - Estilos para el tercer paso del formulario */
+
+.form-step-card {
+  margin: 16px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.step-title {
+  text-align: center;
+  padding: 0;
+}
+
+.step-title h2 {
+  margin: 0 0 8px 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.step-title p {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.form-fields {
+  padding: 0 16px;
+}
+
+/* Health Condition Containers */
+.health-condition-container {
+  margin: 32px 0;
+}
+
+.health-condition-label {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.health-condition-label p {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--ion-color-dark);
+}
+
+.ion-color-dark .health-condition-label p {
+  color: var(--ion-color-light) !important;
+}
+
+/* Radio Group Styling */
+.radio-options-container {
+  display: flex;
+  gap: 0;
+  margin-bottom: 16px;
+  border: 2px solid var(--ion-color-medium);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 20px;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  gap: 8px;
+  position: relative;
+}
+
+.radio-option:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 20%;
+  bottom: 20%;
+  width: 1px;
+  background: var(--ion-color-medium);
+}
+
+.radio-option:hover {
+  background: var(--ion-color-light);
+}
+
+.radio-option.selected {
+  background: var(--ion-color-primary-tint);
+}
+
+.radio-option ion-checkbox {
+  --color: var(--ion-color-primary);
+  --color-checked: var(--ion-color-primary);
+  margin: 0;
+}
+
+.radio-option ion-label {
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--ion-text-color);
+  margin: 0;
+}
+
+/* Dark mode radio labels */
+@media (prefers-color-scheme: dark) {
+  .radio-options-container {
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .radio-option ion-label {
+    color: var(--ion-color-light) !important;
+  }
+
+  .radio-option:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .radio-option.selected {
+    background: rgba(var(--ion-color-primary-rgb), 0.2);
+  }
+
+  .radio-option:not(:last-child)::after {
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.ion-color-dark .radio-options-container {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.ion-color-dark .radio-option ion-label {
+  color: var(--ion-color-light) !important;
+}
+
+.ion-color-dark .radio-option:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.ion-color-dark .radio-option.selected {
+  background: rgba(var(--ion-color-primary-rgb), 0.2);
+}
+
+.ion-color-dark .radio-option:not(:last-child)::after {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Allergy Description Container */
+.allergy-description-container {
+  margin: 16px 0;
+}
+
+/* Error Text */
+.error-text {
+  font-size: 0.85rem;
+  margin-top: 8px;
+  display: block;
+  text-align: center;
+}
+
+/* Form Actions */
+.form-actions {
+  padding: 16px;
+  margin-top: 24px;
+  display: flex;
+  gap: 12px;
+}
+
+.prev-button {
+  --border-radius: 12px;
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+  font-weight: 600;
+  font-size: 1rem;
+  flex: 1;
+}
+
+.next-button {
+  --border-radius: 12px;
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+  font-weight: 600;
+  font-size: 1rem;
+  flex: 2;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .health-condition-container {
+    margin: 24px 0;
+  }
+
+  .health-condition-label p {
+    font-size: 1rem;
+  }
+
+  .radio-options-container {
+    gap: 8px;
+  }
+
+  .radio-option {
+    padding: 16px;
+  }
+
+  .allergy-description-container {
+    margin: 16px 0;
+    padding: 16px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .prev-button,
+  .next-button {
+    flex: 1;
+  }
+}
+
+/* Animation for health conditions */
+.health-condition-container {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Focus states for accessibility */
+.health-condition-container ion-item:focus {
+  outline: 2px solid var(--ion-color-primary);
+  outline-offset: 2px;
+}
+
+/* Invalid state */
+.health-condition-container.ion-invalid ion-item {
+  border-color: var(--ion-color-danger);
+}

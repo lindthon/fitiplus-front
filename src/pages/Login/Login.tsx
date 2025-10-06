@@ -14,13 +14,13 @@ import {
   IonPage,
   IonSpinner,
   IonText,
-  IonTitle,
-  IonToolbar,
 } from '@ionic/react';
 import {
   eyeOffOutline,
   eyeOutline,
   lockClosedOutline,
+  logoFacebook,
+  logoGoogle,
   personOutline,
 } from 'ionicons/icons';
 import React, { useState } from 'react';
@@ -95,8 +95,12 @@ const Login: React.FC = () => {
       const response = await authService.login(credentials);
 
       if (response.success) {
-        // Redirigir a la página principal después del login exitoso
-        history.push(ROUTES.TAB1);
+        // Redirigir a la página de presentación después del login exitoso
+        if (response.isOnboardingCompleted) {
+          history.push(ROUTES.TAB1);
+        } else {
+          history.push(ROUTES.PRESENTATION);
+        }
       } else {
         setAlertMessage(response.message || 'Error al iniciar sesión');
         setShowAlert(true);
@@ -116,13 +120,19 @@ const Login: React.FC = () => {
     setShowAlert(true);
   };
 
+  const handleGoogleLogin = () => {
+    setAlertMessage('Inicio de sesión con Google próximamente disponible');
+    setShowAlert(true);
+  };
+
+  const handleFacebookLogin = () => {
+    setAlertMessage('Inicio de sesión con Facebook próximamente disponible');
+    setShowAlert(true);
+  };
+
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Iniciar Sesión</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <IonHeader></IonHeader>
 
       <IonContent className="login-content">
         <div className="login-container">
@@ -171,9 +181,15 @@ const Login: React.FC = () => {
                     fill="clear"
                     slot="end"
                     onClick={togglePasswordVisibility}
-                    className="password-toggle"
+                    className="login-password-toggle"
+                    aria-label={
+                      showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'
+                    }
                   >
-                    <IonIcon icon={showPassword ? eyeOffOutline : eyeOutline} />
+                    <IonIcon
+                      icon={showPassword ? eyeOffOutline : eyeOutline}
+                      aria-hidden="true"
+                    />
                   </IonButton>
                 </IonItem>
 
@@ -202,19 +218,42 @@ const Login: React.FC = () => {
                 </IonButton>
               </form>
 
+              <div className="social-login-container">
+                <div className="divider">
+                  <span>o continúa con</span>
+                </div>
+
+                <div className="social-buttons">
+                  <IonButton
+                    expand="block"
+                    fill="outline"
+                    onClick={handleGoogleLogin}
+                    className="social-button google-button"
+                  >
+                    <IonIcon icon={logoGoogle} slot="start" />
+                    Google
+                  </IonButton>
+
+                  <IonButton
+                    expand="block"
+                    fill="outline"
+                    onClick={handleFacebookLogin}
+                    className="social-button facebook-button"
+                  >
+                    <IonIcon icon={logoFacebook} slot="start" />
+                    Facebook
+                  </IonButton>
+                </div>
+              </div>
+
               <div className="register-link-container">
                 <IonText color="medium">
                   <p>¿No tienes una cuenta?</p>
                 </IonText>
                 <IonButton
                   fill="clear"
-                  onClick={() => {
-                    setAlertMessage(
-                      'Funcionalidad de registro próximamente disponible',
-                    );
-                    setShowAlert(true);
-                  }}
-                  className="register-button"
+                  onClick={() => history.push(ROUTES.REGISTER)}
+                  className="login-register-button"
                 >
                   Regístrate aquí
                 </IonButton>

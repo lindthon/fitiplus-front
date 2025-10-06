@@ -37,7 +37,9 @@ Se ha implementado un sistema completo de autenticación para la aplicación Fit
 
 ### Componentes
 
-- `src/components/ProtectedRoute.tsx` - Componente para proteger rutas
+- `src/components/AuthGuard.tsx` - Guardia para rutas protegidas (nuevo)
+- `src/components/LoginGuard.tsx` - Guardia para página de login (nuevo)
+- `src/components/ProtectedRoute.tsx` - Componente para proteger rutas (legacy)
 - `src/components/LogoutButton.tsx` - Botón para cerrar sesión
 
 ### Configuración
@@ -65,9 +67,12 @@ Para probar el sistema de autenticación, usa estas credenciales:
 - [x] Mostrar/ocultar contraseña
 - [x] Estados de carga durante autenticación
 - [x] Manejo de errores con alertas
-- [x] Persistencia de sesión
-- [x] Protección de rutas
+- [x] Persistencia de sesión con verificación automática
+- [x] Protección de rutas con AuthGuard
+- [x] Redirección automática de usuarios autenticados
+- [x] Verificación de tokens con expiración (24 horas)
 - [x] Logout funcional
+- [x] Limpieza automática de sesiones expiradas
 
 ### ✅ Mejoras de UX/UI
 
@@ -101,16 +106,40 @@ export const ROUTES = {
 } as const;
 ```
 
-### Flujo de Navegación
+### Flujo de Navegación Mejorado
 
 ```
 / (raíz) → Redirige a /login
-/login → Página de inicio de sesión
-/tabs → Rutas protegidas (requieren autenticación)
+/login → LoginGuard verifica si ya está autenticado
+  ├── Si está autenticado → Redirige a /tabs/tab1
+  └── Si no está autenticado → Muestra página de login
+/tabs → AuthGuard verifica autenticación
+  ├── Si está autenticado → Muestra contenido protegido
+  └── Si no está autenticado → Redirige a /login
   ├── /tabs/tab1 → Tab 1 (con información del usuario)
   ├── /tabs/tab2 → Tab 2
   └── /tabs/tab3 → Tab 3
 ```
+
+### 🔐 Sistema de Verificación de Autenticación
+
+1. **AuthGuard**: Protege todas las rutas `/tabs/*`
+
+   - Verifica si el usuario está autenticado
+   - Valida la expiración del token (24 horas)
+   - Intenta renovar tokens expirados
+   - Redirige a login si no está autenticado
+
+2. **LoginGuard**: Protege la página de login
+
+   - Verifica si el usuario ya está autenticado
+   - Redirige a la página principal si ya tiene sesión válida
+   - Permite acceso a login solo si no está autenticado
+
+3. **Verificación Automática**:
+   - Al cargar la aplicación, verifica sesiones almacenadas
+   - Limpia automáticamente sesiones expiradas
+   - Mantiene la sesión activa mientras el token sea válido
 
 ## Uso del Servicio de Autenticación
 
