@@ -99,14 +99,25 @@
 }
 
 .gender-card.selected {
-  background: var(--ion-color-primary);
+  background: linear-gradient(
+    135deg,
+    var(--ion-color-primary) 0%,
+    var(--ion-color-secondary) 100%
+  );
   border-color: var(--ion-color-primary);
   color: white;
+  box-shadow: 0 4px 16px rgba(var(--ion-color-primary-rgb), 0.3);
 }
 
 .gender-card.selected:hover {
-  background: var(--ion-color-primary-shade);
+  background: linear-gradient(
+    135deg,
+    var(--ion-color-primary-shade) 0%,
+    var(--ion-color-secondary-shade) 100%
+  );
   border-color: var(--ion-color-primary-shade);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(var(--ion-color-primary-rgb), 0.4);
 }
 
 .gender-card-text {
@@ -130,14 +141,6 @@
 .form-actions {
   padding: 16px;
   margin-top: 24px;
-}
-
-.next-button {
-  --border-radius: 12px;
-  --padding-top: 16px;
-  --padding-bottom: 16px;
-  font-weight: 600;
-  font-size: 1rem;
 }
 
 /* Responsive Design */

@@ -1,5 +1,9 @@
 .multi-step-form-content {
-  --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --background: linear-gradient(
+    135deg,
+    var(--ion-color-primary) 0%,
+    var(--ion-color-secondary) 100%
+  );
 }
 
 .form-container {
@@ -150,9 +154,9 @@
 }
 
 .range-container ion-range {
-  --bar-background: rgba(102, 126, 234, 0.2);
-  --bar-background-active: #667eea;
-  --knob-background: #667eea;
+  --bar-background: rgba(var(--ion-color-primary-rgb), 0.2);
+  --bar-background-active: var(--ion-color-primary);
+  --knob-background: var(--ion-color-primary);
   --knob-size: 20px;
   padding: 0 16px;
 }
@@ -170,8 +174,8 @@
 }
 
 .prev-button {
-  --color: #667eea;
-  --border-color: #667eea;
+  --color: var(--ion-color-primary);
+  --border-color: var(--ion-color-primary);
   --border-width: 1px;
   --border-style: solid;
   --border-radius: 12px;
@@ -186,16 +190,37 @@
 
 .next-button,
 .submit-button {
-  --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --background-hover: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+  --background: linear-gradient(
+    135deg,
+    var(--ion-color-primary) 0%,
+    var(--ion-color-secondary) 100%
+  );
+  --background-hover: linear-gradient(
+    135deg,
+    var(--ion-color-primary-shade) 0%,
+    var(--ion-color-secondary-shade) 100%
+  );
   --border-radius: 12px;
   --padding-top: 16px;
   --padding-bottom: 16px;
+  --box-shadow: none;
+  --ripple-color: transparent;
   font-weight: 600;
   font-size: 1rem;
   text-transform: none;
   flex: 1;
-  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 16px rgba(var(--ion-color-primary-rgb), 0.3);
+}
+
+.next-button::part(native),
+.submit-button::part(native) {
+  background: linear-gradient(
+    135deg,
+    var(--ion-color-primary) 0%,
+    var(--ion-color-secondary) 100%
+  );
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 .submit-button {

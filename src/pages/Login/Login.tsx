@@ -219,7 +219,7 @@ const Login: React.FC = () => {
               </form>
 
               <div className="social-login-container">
-                <div className="divider">
+                <div className="social-text">
                   <span>o continúa con</span>
                 </div>
 

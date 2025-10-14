@@ -29,7 +29,6 @@ const FormStep1: React.FC<FormStep1Props> = ({ data, onNext, onUpdate }) => {
     { value: 'Mantener forma', label: 'Mantener forma' },
     { value: 'Mejorar resistencia', label: 'Mejorar resistencia' },
     { value: 'otro', label: 'Otro' },
-    { value: 'prefiero-no-decir', label: 'Prefiero no decir' },
   ];
 
   const handleInputChange = (field: string, value: any) => {

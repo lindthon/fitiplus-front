@@ -8,7 +8,8 @@ import {
   IonLabel,
   IonRadio,
   IonRadioGroup,
-  IonRange,
+  IonSelect,
+  IonSelectOption,
   IonText,
 } from '@ionic/react';
 import React, { useState } from 'react';
@@ -109,22 +110,24 @@ const FormStep2: React.FC<FormStep2Props> = ({
 
       <IonCardContent>
         <div className="form-fields">
-          {/* Peso Slider */}
-          <div className="slider-container">
-            <IonText className="slider-label">
-              <p>Peso: {formData.weight} kg</p>
-            </IonText>
-            <IonRange
-              min={30}
-              max={300}
-              step={1}
-              value={formData.weight}
-              onIonChange={(e) => handleInputChange('weight', e.detail.value)}
-              className={errors.weight ? 'ion-invalid' : ''}
-            >
-              <IonLabel slot="start">30kg</IonLabel>
-              <IonLabel slot="end">300kg</IonLabel>
-            </IonRange>
+          {/* Peso Picker */}
+          <div className="picker-container">
+            <IonItem className="picker-item">
+              <IonLabel position="stacked">Peso (kg)</IonLabel>
+              <IonSelect
+                value={formData.weight}
+                interface="action-sheet"
+                placeholder="Selecciona tu peso"
+                onIonChange={(e) => handleInputChange('weight', e.detail.value)}
+                className={errors.weight ? 'ion-invalid' : ''}
+              >
+                {Array.from({ length: 271 }, (_, i) => i + 30).map((weight) => (
+                  <IonSelectOption key={weight} value={weight}>
+                    {weight} kg
+                  </IonSelectOption>
+                ))}
+              </IonSelect>
+            </IonItem>
             {errors.weight && (
               <IonText color="danger" className="error-text">
                 {errors.weight}
@@ -132,22 +135,26 @@ const FormStep2: React.FC<FormStep2Props> = ({
             )}
           </div>
 
-          {/* Altura Slider */}
-          <div className="slider-container">
-            <IonText className="slider-label">
-              <p>Altura: {formData.height} cm</p>
-            </IonText>
-            <IonRange
-              min={100}
-              max={250}
-              step={1}
-              value={formData.height}
-              onIonChange={(e) => handleInputChange('height', e.detail.value)}
-              className={errors.height ? 'ion-invalid' : ''}
-            >
-              <IonLabel slot="start">100cm</IonLabel>
-              <IonLabel slot="end">250cm</IonLabel>
-            </IonRange>
+          {/* Altura Picker */}
+          <div className="picker-container">
+            <IonItem className="picker-item">
+              <IonLabel position="stacked">Altura (cm)</IonLabel>
+              <IonSelect
+                value={formData.height}
+                interface="action-sheet"
+                placeholder="Selecciona tu altura"
+                onIonChange={(e) => handleInputChange('height', e.detail.value)}
+                className={errors.height ? 'ion-invalid' : ''}
+              >
+                {Array.from({ length: 151 }, (_, i) => i + 100).map(
+                  (height) => (
+                    <IonSelectOption key={height} value={height}>
+                      {height} cm
+                    </IonSelectOption>
+                  ),
+                )}
+              </IonSelect>
+            </IonItem>
             {errors.height && (
               <IonText color="danger" className="error-text">
                 {errors.height}
@@ -155,22 +162,24 @@ const FormStep2: React.FC<FormStep2Props> = ({
             )}
           </div>
 
-          {/* Edad Slider */}
-          <div className="slider-container">
-            <IonText className="slider-label">
-              <p>Edad: {formData.age} años</p>
-            </IonText>
-            <IonRange
-              min={13}
-              max={100}
-              step={1}
-              value={formData.age}
-              onIonChange={(e) => handleInputChange('age', e.detail.value)}
-              className={errors.age ? 'ion-invalid' : ''}
-            >
-              <IonLabel slot="start">13</IonLabel>
-              <IonLabel slot="end">100</IonLabel>
-            </IonRange>
+          {/* Edad Picker */}
+          <div className="picker-container">
+            <IonItem className="picker-item">
+              <IonLabel position="stacked">Edad (años)</IonLabel>
+              <IonSelect
+                value={formData.age}
+                interface="action-sheet"
+                placeholder="Selecciona tu edad"
+                onIonChange={(e) => handleInputChange('age', e.detail.value)}
+                className={errors.age ? 'ion-invalid' : ''}
+              >
+                {Array.from({ length: 88 }, (_, i) => i + 13).map((age) => (
+                  <IonSelectOption key={age} value={age}>
+                    {age} años
+                  </IonSelectOption>
+                ))}
+              </IonSelect>
+            </IonItem>
             {errors.age && (
               <IonText color="danger" className="error-text">
                 {errors.age}

@@ -69,32 +69,20 @@
   background: transparent;
   cursor: pointer;
   transition: all 0.3s ease;
-  gap: 8px;
   position: relative;
 }
 
-.radio-option:not(:last-child)::after {
-  content: '';
-  position: absolute;
-  right: 0;
-  top: 20%;
-  bottom: 20%;
-  width: 1px;
-  background: var(--ion-color-medium);
-}
-
 .radio-option:hover {
-  background: var(--ion-color-light);
+  background: rgba(var(--ion-color-primary-rgb), 0.08);
 }
 
 .radio-option.selected {
-  background: var(--ion-color-primary-tint);
+  background: var(--ion-color-primary);
+  border-color: var(--ion-color-primary);
 }
 
 .radio-option ion-checkbox {
-  --color: var(--ion-color-primary);
-  --color-checked: var(--ion-color-primary);
-  margin: 0;
+  display: none;
 }
 
 .radio-option ion-label {
@@ -104,60 +92,114 @@
   margin: 0;
 }
 
+.radio-option.selected ion-label {
+  color: var(--ion-color-primary-contrast);
+  font-weight: 600;
+}
+
 /* Dark mode radio labels */
 @media (prefers-color-scheme: dark) {
   .radio-options-container {
-    border-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
   }
 
   .radio-option ion-label {
-    color: var(--ion-color-light) !important;
+    color: var(--ion-color-light);
   }
 
   .radio-option:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(var(--ion-color-primary-rgb), 0.15);
   }
 
   .radio-option.selected {
-    background: rgba(var(--ion-color-primary-rgb), 0.2);
+    background: var(--ion-color-primary);
   }
 
-  .radio-option:not(:last-child)::after {
-    background: rgba(255, 255, 255, 0.2);
+  .radio-option.selected ion-label {
+    color: var(--ion-color-primary-contrast);
+    font-weight: 600;
   }
 }
 
 .ion-color-dark .radio-options-container {
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .ion-color-dark .radio-option ion-label {
-  color: var(--ion-color-light) !important;
+  color: var(--ion-color-light);
 }
 
 .ion-color-dark .radio-option:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(var(--ion-color-primary-rgb), 0.15);
 }
 
 .ion-color-dark .radio-option.selected {
-  background: rgba(var(--ion-color-primary-rgb), 0.2);
+  background: var(--ion-color-primary);
 }
 
-.ion-color-dark .radio-option:not(:last-child)::after {
-  background: rgba(255, 255, 255, 0.2);
+.ion-color-dark .radio-option.selected ion-label {
+  color: var(--ion-color-primary-contrast);
+  font-weight: 600;
 }
 
-/* Allergy Description Container */
-.allergy-description-container {
-  margin: 16px 0;
+/* Allergy Input Container */
+.allergy-input-container {
+  margin: 32px 0 24px 0;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.allergy-label {
+  margin-bottom: 16px;
+}
+
+.allergy-label ion-label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--ion-color-dark);
+}
+
+@media (prefers-color-scheme: dark) {
+  .allergy-label ion-label {
+    color: var(--ion-color-light);
+  }
+}
+
+.allergy-item {
+  --background: transparent;
+  --padding-start: 0;
+  --inner-padding-end: 0;
+}
+
+.allergy-item ion-input {
+  --padding-start: 16px;
+  --padding-top: 14px;
+  --padding-bottom: 14px;
+  border: 2px solid var(--ion-color-medium);
+  border-radius: 12px;
+  font-size: 1rem;
+}
+
+.allergy-item ion-input:focus-within {
+  border-color: var(--ion-color-primary);
+}
+
+.allergy-item ion-input.ion-invalid {
+  border-color: var(--ion-color-danger);
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .allergy-item ion-input {
+    border-color: rgba(255, 255, 255, 0.3);
+  }
 }
 
 /* Error Text */
 .error-text {
   font-size: 0.85rem;
-  margin-top: 8px;
+  margin-top: 4px;
   display: block;
-  text-align: center;
+  padding-left: 4px;
 }
 
 /* Form Actions */
@@ -194,10 +236,6 @@
 
   .health-condition-label p {
     font-size: 1rem;
-  }
-
-  .radio-options-container {
-    gap: 8px;
   }
 
   .radio-option {

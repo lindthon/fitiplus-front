@@ -163,25 +163,29 @@ const FormStep3: React.FC<FormStep3Props> = ({
 
           {/* Input para descripción de alergia - Solo si selecciona "Sí" en alergia */}
           {formData.allergy && (
-            <IonItem className="form-input-item">
-              <IonLabel position="stacked" style={{ marginBottom: '8px',fontSize: '1rem' }}>
-                ¿Qué tipo de alergia tienes?
-              </IonLabel>
-              <IonInput
-                type="text"
-                value={formData.allergyDescription}
-                onIonInput={(e) =>
-                  handleInputChange('allergyDescription', e.detail.value || '')
-                }
-                placeholder="Describe tu alergia"
-                className={errors.allergyDescription ? 'ion-invalid' : ''}
-              />
+            <div className="allergy-input-container">
+              <div className="allergy-label">
+                <IonLabel>¿Qué tipo de alergia tienes?</IonLabel>
+              </div>
+              <IonItem className="allergy-item" lines="none">
+                <IonInput
+                  placeholder="Ej: Polen, mariscos..."
+                  value={formData.allergyDescription}
+                  onIonInput={(e) =>
+                    handleInputChange(
+                      'allergyDescription',
+                      e.detail.value || '',
+                    )
+                  }
+                  className={errors.allergyDescription ? 'ion-invalid' : ''}
+                ></IonInput>
+              </IonItem>
               {errors.allergyDescription && (
                 <IonText color="danger" className="error-text">
                   {errors.allergyDescription}
                 </IonText>
               )}
-            </IonItem>
+            </div>
           )}
         </div>
 

@@ -27,6 +27,49 @@
   padding: 0 16px;
 }
 
+/* Picker Containers */
+.picker-container {
+  margin: 24px 0;
+}
+
+.picker-item {
+  --background: rgba(255, 255, 255, 0.8);
+  --border-radius: 12px;
+  --border-color: rgba(0, 0, 0, 0.1);
+  --border-width: 1px;
+  --border-style: solid;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  --min-height: 60px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+
+.picker-item ion-label {
+  font-weight: 500;
+  color: #34495e;
+  margin-bottom: 8px;
+}
+
+.picker-item ion-select {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ion-color-primary);
+  width: 100%;
+  max-width: 100%;
+}
+
+.picker-item ion-select::part(placeholder) {
+  color: var(--ion-color-medium);
+  opacity: 0.6;
+}
+
+.picker-item ion-select::part(icon) {
+  color: var(--ion-color-primary);
+}
+
 /* Slider Containers */
 .slider-container {
   margin: 24px 0;
@@ -113,14 +156,23 @@ ion-range::part(tick-active) {
 .radio-group-container ion-item {
   --background: transparent;
   --border-radius: 12px;
-  --padding-start: 0;
-  --padding-end: 0;
-  --padding-top: 20px;
-  --padding-bottom: 20px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  --inner-padding-end: 16px;
+  --min-height: 50px;
   margin-bottom: 16px;
   border: 2px solid var(--ion-color-medium);
   border-radius: 12px;
   transition: all 0.3s ease;
+}
+
+.radio-group-container ion-item::part(native) {
+  padding-top: 0px;
+  padding-left: 12px;
+  padding-bottom: 0px;
+  min-height: 50px;
 }
 
 .radio-group-container ion-item:hover {
@@ -191,6 +243,19 @@ ion-range::part(tick-active) {
 
 /* Dark Mode Support */
 @media (prefers-color-scheme: dark) {
+  .picker-item {
+    --background: rgba(52, 73, 94, 0.8);
+    --border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .picker-item ion-label {
+    color: #ecf0f1;
+  }
+
+  .picker-item ion-select {
+    color: var(--ion-color-primary-tint);
+  }
+
   .slider-container {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
