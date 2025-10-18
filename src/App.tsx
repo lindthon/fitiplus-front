@@ -9,13 +9,15 @@ import {
   setupIonicReact,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, square, triangle } from 'ionicons/icons';
+import { home, time, trophy } from 'ionicons/icons';
 import { Redirect, Route } from 'react-router-dom';
 import SimpleAuthCheck from './components/SimpleAuthCheck';
 import { ROUTES } from './config/routes';
+import IngredientSelection from './pages/IngredientSelection';
 import Login from './pages/Login';
 import MultiStepForm from './pages/MultiStepForm';
 import Presentation from './pages/Presentation';
+import RecipeDetail from './pages/RecipeDetail';
 import Register from './pages/Register';
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
@@ -69,6 +71,16 @@ const App: React.FC = () => (
         <Route exact path={ROUTES.MULTI_STEP_FORM}>
           <MultiStepForm />
         </Route>
+        <Route exact path="/recipe/:id">
+          <SimpleAuthCheck>
+            <RecipeDetail />
+          </SimpleAuthCheck>
+        </Route>
+        <Route exact path={ROUTES.INGREDIENT_SELECTION}>
+          <SimpleAuthCheck>
+            <IngredientSelection />
+          </SimpleAuthCheck>
+        </Route>
         <Route path={ROUTES.TABS}>
           <SimpleAuthCheck>
             <IonTabs>
@@ -88,16 +100,17 @@ const App: React.FC = () => (
               </IonRouterOutlet>
               <IonTabBar slot="bottom">
                 <IonTabButton tab="tab1" href={ROUTES.TAB1}>
-                  <IonIcon aria-hidden="true" icon={triangle} />
+                  <IonIcon aria-hidden="true" icon={home} />
                   <IonLabel>Tab 1</IonLabel>
                 </IonTabButton>
-                <IonTabButton tab="tab2" href={ROUTES.TAB2}>
-                  <IonIcon aria-hidden="true" icon={ellipse} />
-                  <IonLabel>Tab 2</IonLabel>
-                </IonTabButton>
+
                 <IonTabButton tab="tab3" href={ROUTES.TAB3}>
-                  <IonIcon aria-hidden="true" icon={square} />
+                  <IonIcon aria-hidden="true" icon={time} />
                   <IonLabel>Tab 3</IonLabel>
+                </IonTabButton>
+                <IonTabButton tab="tab2" href={ROUTES.TAB2}>
+                  <IonIcon aria-hidden="true" icon={trophy} />
+                  <IonLabel>Tab 2</IonLabel>
                 </IonTabButton>
               </IonTabBar>
             </IonTabs>

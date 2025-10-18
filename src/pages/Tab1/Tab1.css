@@ -1,0 +1,428 @@
+/* Ionic maneja el padding automáticamente con ion-padding */
+
+/* Tab1 específico */
+.tab1-content .greeting-section {
+  margin-bottom: 32px;
+  animation: fadeInDown 0.6s ease-out;
+}
+
+.tab1-content .greeting {
+  font-size: 32px;
+  font-weight: bold;
+  color: #1f2937;
+  margin: 0 0 12px 0;
+  line-height: 1.2;
+}
+
+.tab1-content .achievement {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #6b7280;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 12px 16px;
+  background: rgba(139, 92, 246, 0.1);
+  border-radius: 12px;
+  border-left: 4px solid #8b5cf6;
+}
+
+.tab1-content .trophy {
+  font-size: 18px;
+}
+
+/* Resumen del día */
+.tab1-content .daily-summary-card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: slideInUp 0.6s ease-out 0.2s both;
+}
+
+.tab1-content .summary-title {
+  color: #8b5cf6;
+  font-size: 12px;
+  margin: 0 0 8px 0;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tab1-content .summary-content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.tab1-content .calories-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.tab1-content .calories-number {
+  font-size: 24px;
+  font-weight: bold;
+  color: #1f2937;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 0;
+}
+
+.tab1-content .macros {
+  display: flex;
+  gap: 12px;
+}
+
+.tab1-content .macro-circle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.tab1-content .circle-fill {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  position: relative;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tab1-content .circle-fill::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  right: 3px;
+  bottom: 3px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+.tab1-content .percentage-text {
+  position: relative;
+  z-index: 2;
+  font-size: 14px;
+  font-weight: bold;
+  color: #374151;
+  text-align: center;
+  line-height: 1;
+}
+
+.tab1-content .macro-label {
+  font-size: 9px;
+  color: #6b7280;
+  text-align: center;
+  font-weight: 500;
+}
+
+.tab1-content .recipe-button {
+  width: 100%;
+  --background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  --color: white;
+  --border-radius: 16px;
+  height: 56px;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: none;
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+  transition: all 0.3s ease;
+}
+
+.tab1-content .recipe-button:hover {
+  --box-shadow: 0 12px 32px rgba(139, 92, 246, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Opciones de comida */
+.tab1-content .meal-options {
+  margin-bottom: 32px;
+  animation: fadeInUp 0.6s ease-out 0.4s both;
+}
+
+.tab1-content .section-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: #1f2937;
+  margin: 0 0 20px 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tab1-content .meal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tab1-content .meal-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 14px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.tab1-content .meal-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  background: rgba(255, 255, 255, 1);
+}
+
+.tab1-content .meal-item:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.tab1-content .meal-image {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+  flex-shrink: 0;
+}
+
+.tab1-content .meal-image.breakfast {
+  background-image: url('https://images.unsplash.com/photo-1551782450-17144efb9c50?w=200&h=200&fit=crop&crop=center');
+}
+
+.tab1-content .meal-image.lunch {
+  background-image: url('https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=200&h=200&fit=crop&crop=center');
+}
+
+.tab1-content .meal-image.dinner {
+  background-image: url('https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=200&h=200&fit=crop&crop=center');
+}
+
+.tab1-content .meal-image.snacks {
+  background-image: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=200&h=200&fit=crop&crop=center');
+}
+
+.tab1-content .meal-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.tab1-content .meal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.tab1-content .meal-title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: bold;
+  color: #1f2937;
+  flex: 1;
+}
+
+.tab1-content .meal-category {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 8px;
+  background: transparent;
+  border: 2px solid;
+  min-width: 80px;
+  text-align: center;
+  display: inline-block;
+}
+
+.tab1-content .meal-category.breakfast {
+  border-color: #f59e0b;
+  color: #f59e0b;
+}
+
+.tab1-content .meal-category.lunch {
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+.tab1-content .meal-category.dinner {
+  border-color: #8b5cf6;
+  color: #8b5cf6;
+}
+
+.tab1-content .meal-category.snacks {
+  border-color: #10b981;
+  color: #10b981;
+}
+
+.tab1-content .meal-calories-row {
+  display: flex;
+}
+
+.tab1-content .meal-calories {
+  margin: 0;
+  font-size: 13px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+/* Progreso nutricional */
+.tab1-content .nutritional-progress {
+  margin-bottom: 32px;
+  animation: fadeInUp 0.6s ease-out 0.6s both;
+}
+
+.tab1-content .progress-bar {
+  height: 12px;
+  background: rgba(229, 231, 235, 0.5);
+  border-radius: 8px;
+  display: flex;
+  margin-bottom: 16px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tab1-content .progress-segment {
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+.tab1-content .progress-segment:first-child {
+  border-radius: 8px 0 0 8px;
+}
+
+.tab1-content .progress-segment:last-child {
+  border-radius: 0 8px 8px 0;
+}
+
+.tab1-content .progress-segment:not(:first-child):not(:last-child) {
+  border-radius: 0;
+}
+
+.tab1-content .progress-segment.iron {
+  background: linear-gradient(90deg, #10b981, #34d399);
+}
+
+.tab1-content .progress-segment.magnesium {
+  background: linear-gradient(90deg, #34d399, #6ee7b7);
+}
+
+.tab1-content .progress-segment.omega3 {
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+}
+
+.tab1-content .progress-labels {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tab1-content .progress-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.tab1-content .percentage {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.tab1-content .percentage.iron {
+  color: #10b981;
+}
+
+.tab1-content .percentage.magnesium {
+  color: #34d399;
+}
+
+.tab1-content .percentage.omega3 {
+  color: #f59e0b;
+}
+
+.tab1-content .nutrient {
+  font-size: 13px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+/* Animaciones */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .tab1-content .greeting {
+    font-size: 28px;
+  }
+
+  .tab1-content .daily-summary-card {
+    padding: 20px;
+  }
+
+  .tab1-content .calories-number {
+    font-size: 14px;
+  }
+
+  .tab1-content .circle-fill {
+    width: 50px;
+    height: 50px;
+  }
+
+  .tab1-content .meal-item {
+    padding: 16px;
+  }
+
+  .tab1-content .meal-image {
+    width: 50px;
+    height: 50px;
+  }
+
+  .tab1-content .section-title {
+    font-size: 20px;
+  }
+}

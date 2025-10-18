@@ -1,0 +1,212 @@
+/* Tab2 específico */
+.tab2-content .medals-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  animation: fadeInDown 0.6s ease-out;
+}
+
+.tab2-content .header-text {
+  flex: 1;
+}
+
+.tab2-content .medals-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #374151;
+  margin: 0 0 8px 0;
+}
+
+.tab2-content .medals-subtitle {
+  font-size: 14px;
+  color: #9ca3af;
+  margin: 0;
+}
+
+.tab2-content .year-button {
+  --background: #8b5cf6;
+  --color: white;
+  --border-radius: 8px;
+  height: 40px;
+  padding: 0 16px;
+  font-weight: 500;
+}
+
+/* Resumen de medallas */
+.tab2-content .medal-summary-card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: slideInUp 0.6s ease-out 0.2s both;
+}
+
+.tab2-content .medal-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.3s ease;
+}
+
+.tab2-content .medal-item:hover {
+  transform: translateY(-2px);
+}
+
+.tab2-content .medal-icon {
+  font-size: 32px;
+  transition: transform 0.3s ease;
+}
+
+.tab2-content .medal-item:hover .medal-icon {
+  transform: scale(1.1);
+}
+
+.tab2-content .medal-count {
+  font-size: 24px;
+  font-weight: bold;
+  color: #374151;
+}
+
+/* Tabla de medallas */
+.tab2-content .medals-table {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  margin-bottom: 24px;
+  animation: fadeInUp 0.6s ease-out 0.4s both;
+}
+
+.tab2-content .table-header {
+  background: rgba(249, 250, 251, 0.8);
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+}
+
+.tab2-content .month-column {
+  font-size: 16px;
+  font-weight: bold;
+  color: #374151;
+}
+
+.tab2-content .medal-headers {
+  display: flex;
+  gap: 20px;
+}
+
+.tab2-content .medal-header {
+  font-size: 20px;
+  width: 24px;
+  text-align: center;
+}
+
+.tab2-content .table-row {
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(243, 244, 246, 0.5);
+  transition: background-color 0.3s ease;
+}
+
+.tab2-content .table-row:hover {
+  background-color: rgba(249, 250, 251, 0.5);
+}
+
+.tab2-content .table-row:last-child {
+  border-bottom: none;
+}
+
+.tab2-content .total-row {
+  background: rgba(249, 250, 251, 0.8);
+  font-weight: bold;
+}
+
+.tab2-content .month-name {
+  font-size: 16px;
+  color: #374151;
+  font-weight: 500;
+}
+
+.tab2-content .medal-counts {
+  display: flex;
+  gap: 20px;
+}
+
+.tab2-content .medal-count {
+  font-size: 16px;
+  color: #374151;
+  width: 24px;
+  text-align: center;
+}
+
+/* Botón volver */
+.tab2-content .back-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+  animation: fadeInUp 0.6s ease-out 0.6s both;
+}
+
+.tab2-content .back-button {
+  --background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  --color: white;
+  --border-radius: 16px;
+  width: 100%;
+  height: 56px;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+  transition: all 0.3s ease;
+}
+
+.tab2-content .back-button:hover {
+  --box-shadow: 0 12px 32px rgba(139, 92, 246, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Animaciones */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

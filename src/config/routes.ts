@@ -12,6 +12,8 @@ export const ROUTES = {
   TAB1: '/tabs/tab1',
   TAB2: '/tabs/tab2',
   TAB3: '/tabs/tab3',
+  RECIPE_DETAIL: '/recipe/:id',
+  INGREDIENT_SELECTION: '/ingredient-selection',
 } as const;
 
 // Rutas que requieren autenticación
@@ -20,6 +22,8 @@ export const PROTECTED_ROUTES = [
   ROUTES.TAB1,
   ROUTES.TAB2,
   ROUTES.TAB3,
+  ROUTES.RECIPE_DETAIL,
+  ROUTES.INGREDIENT_SELECTION,
 ] as const;
 
 // Rutas públicas (no requieren autenticación)

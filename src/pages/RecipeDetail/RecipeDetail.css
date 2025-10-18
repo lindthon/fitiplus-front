@@ -1,0 +1,278 @@
+/* Botón flotante de retroceder */
+.floating-back-button {
+  position: fixed !important;
+  top: 20px !important;
+  left: 20px !important;
+  z-index: 1000 !important;
+  --background: rgba(255, 255, 255, 0.2) !important;
+  --color: white !important;
+  --border-radius: 50% !important;
+  --padding-start: 0 !important;
+  --padding-end: 0 !important;
+  --padding-top: 0 !important;
+  --padding-bottom: 0 !important;
+  --border-width: 0 !important;
+  --box-shadow: none !important;
+  width: 48px !important;
+  height: 48px !important;
+  min-width: 48px !important;
+  min-height: 48px !important;
+  max-width: 48px !important;
+  max-height: 48px !important;
+  border-radius: 50% !important;
+  background: rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+}
+
+.floating-back-button:hover {
+  --background: rgba(255, 255, 255, 0.3) !important;
+  background: rgba(255, 255, 255, 0.3) !important;
+  transform: scale(1.05) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+.floating-back-button:active {
+  transform: scale(0.95) !important;
+}
+
+.floating-back-button ion-icon {
+  font-size: 20px !important;
+  font-weight: bold !important;
+  color: white !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.hero-section {
+  position: relative;
+  height: 300px;
+  overflow: hidden;
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.3) 0%,
+      rgba(0, 0, 0, 0.1) 50%,
+      rgba(0, 0, 0, 0.4) 100%
+    ),
+    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><rect fill="%23f0f9ff" width="400" height="300"/><circle fill="%23e0f2fe" cx="100" cy="80" r="60"/><circle fill="%23bae6fd" cx="300" cy="120" r="40"/><rect fill="%23a7f3d0" x="50" y="200" width="300" height="80" rx="10"/><circle fill="%23fef3c7" cx="200" cy="150" r="30"/></svg>');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;
+}
+
+.hero-overlay {
+  width: 100%;
+  padding: 20px;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0.3) 50%,
+    transparent 100%
+  );
+}
+
+.recipe-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: white;
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  line-height: 1.2;
+}
+
+/* Contenido de la receta */
+.recipe-content {
+  padding: 24px;
+  background: white;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #374151;
+  margin: 0 0 16px 0;
+}
+
+/* Aporte nutricional */
+.nutrition-section {
+  margin-bottom: 32px;
+}
+
+.nutrition-card {
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.nutrition-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.nutrition-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.nutrition-icon.protein {
+  background: #fecaca;
+}
+
+.nutrition-icon.fat {
+  background: #fef3c7;
+}
+
+.nutrition-icon.carbs {
+  background: #d1fae5;
+}
+
+.nutrition-value {
+  font-size: 18px;
+  font-weight: bold;
+  color: #374151;
+}
+
+/* Ingredientes */
+.ingredients-section {
+  margin-bottom: 32px;
+}
+
+.ingredients-card {
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  gap: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.ingredients-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ingredient-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ingredient-bullet {
+  color: #3b82f6;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.ingredient-text {
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.4;
+}
+
+/* Preparación */
+.preparation-section {
+  margin-bottom: 32px;
+}
+
+.preparation-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.preparation-step {
+  padding: 16px;
+  background: #f9fafb;
+  border-radius: 8px;
+  border-left: 4px solid #8b5cf6;
+}
+
+.step-text {
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.5;
+}
+
+/* Botón de acción */
+.action-button-container {
+  padding: 24px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.add-to-meal-button {
+  --background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  --color: white;
+  --border-radius: 12px;
+  --box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+  width: 100%;
+  height: 56px;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: none;
+}
+
+.add-to-meal-button:hover {
+  --box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-section {
+    height: 250px;
+  }
+
+  .recipe-title {
+    font-size: 24px;
+  }
+
+  .recipe-content {
+    padding: 20px;
+  }
+
+  .ingredients-card {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .nutrition-card {
+    padding: 16px;
+  }
+
+  .nutrition-item {
+    gap: 6px;
+  }
+
+  .nutrition-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+
+  .nutrition-value {
+    font-size: 16px;
+  }
+}

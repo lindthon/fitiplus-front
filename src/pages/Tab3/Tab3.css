@@ -1,0 +1,269 @@
+/* Tab3 específico */
+.tab3-content .history-header {
+  margin-bottom: 32px;
+  padding-top: 8px;
+  animation: fadeInDown 0.6s ease-out;
+}
+
+.tab3-content .history-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+  text-align: left;
+  letter-spacing: -0.025em;
+}
+
+/* Indicadores de nutrientes */
+.tab3-content .nutrient-indicators {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+  padding: 24px 0;
+  background: #fafafa;
+  border-radius: 16px;
+  border: 1px solid #f0f0f0;
+  animation: slideInUp 0.6s ease-out 0.2s both;
+}
+
+.tab3-content .nutrient-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 8px 12px;
+  border-radius: 12px;
+}
+
+.tab3-content .nutrient-indicator:hover {
+  background: rgba(255, 255, 255, 0.8);
+  transform: translateY(-2px);
+}
+
+.tab3-content .nutrient-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #374151;
+  transition: color 0.2s ease;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.nutrient-indicator:hover .tab3-content .nutrient-label {
+  color: #111827;
+}
+
+.tab3-content .nutrient-color-line {
+  width: 120%;
+  height: 6px;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nutrient-indicator:hover .tab3-content .nutrient-color-line {
+  transform: scaleX(1.3);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Sección del día */
+.tab3-content .day-section {
+  margin-bottom: 24px;
+  animation: fadeInUp 0.6s ease-out 0.4s both;
+}
+
+.tab3-content .day-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+  text-align: left;
+  letter-spacing: -0.025em;
+}
+
+/* Lista de comidas */
+.tab3-content .meal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 40px;
+  animation: fadeInUp 0.6s ease-out 0.6s both;
+}
+
+.tab3-content .meal-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  background: white;
+  border: 1px solid #f3f4f6;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.tab3-content .meal-card:hover {
+  border-color: #e5e7eb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.tab3-content .meal-card:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.tab3-content .meal-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  flex-shrink: 0;
+}
+
+.tab3-content .meal-icon-symbol {
+  font-size: 24px;
+  filter: grayscale(0.3);
+}
+
+.tab3-content .meal-info {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 48px;
+}
+
+.tab3-content .meal-name {
+  font-size: 17px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.tab3-content .nutrient-badges {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.tab3-content .nutrient-badge {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.tab3-content .nutrient-badge:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Botón día anterior */
+.tab3-content .previous-day-container {
+  margin-top: auto;
+  padding-top: 32px;
+  animation: fadeInUp 0.6s ease-out 0.8s both;
+}
+
+.tab3-content .previous-day-button {
+  width: 100%;
+  --background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  --color: white;
+  --border-radius: 16px;
+  height: 56px;
+  font-size: 17px;
+  font-weight: 600;
+  --box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+  transition: all 0.2s ease;
+}
+
+.previous-day-button:hover {
+  --box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+  transform: translateY(-1px);
+}
+
+.previous-day-button:active {
+  transform: translateY(0);
+  --box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+}
+
+/* Animaciones */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .tab3-content .nutrient-indicators {
+    padding: 20px 16px;
+  }
+
+  .tab3-content .nutrient-label {
+    font-size: 14px;
+  }
+
+  .tab3-content .nutrient-color-line {
+    width: 80px;
+    height: 5px;
+  }
+
+  .tab3-content .meal-card {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .tab3-content .meal-name {
+    font-size: 16px;
+  }
+
+  .tab3-content .nutrient-badge {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+}

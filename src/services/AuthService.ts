@@ -52,7 +52,7 @@ class AuthService {
         const user: User = {
           id: '1',
           email: credentials.email,
-          name: 'Usuario Administrador',
+          name: 'Usuario',
           avatar: 'https://via.placeholder.com/150',
         };
 
@@ -69,7 +69,7 @@ class AuthService {
           user,
           token,
           message: 'Inicio de sesión exitoso',
-          isOnboardingCompleted: false,
+          isOnboardingCompleted: true,
         };
       } else {
         return {
