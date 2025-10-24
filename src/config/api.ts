@@ -28,6 +28,10 @@ export const API_CONFIG = {
     ONBOARDING_STAGES: '/onboarding/stages',
     ONBOARDING_GOALS: '/onboarding/goals',
     ONBOARDING_ALLERGIES: '/onboarding/allergies',
+    ONBOARDING_STEP_1: '/onboarding/step-1',
+    ONBOARDING_STEP_2: '/onboarding/step-2',
+    ONBOARDING_STEP_3: '/onboarding/step-3',
+    ONBOARDING_PROGRESS: '/onboarding/progress',
   },
 } as const;
 

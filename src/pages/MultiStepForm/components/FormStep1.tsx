@@ -46,6 +46,7 @@ const FormStep1: React.FC<FormStep1Props> = ({
   const [goals, setGoals] = useState<Goal[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   // Cargar los objetivos desde la API
   useEffect(() => {
@@ -145,10 +146,59 @@ const FormStep1: React.FC<FormStep1Props> = ({
     }
   };
 
-  const handleNext = () => {
-    if (validateForm()) {
+  const handleNext = async () => {
+    if (!validateForm()) {
+      return;
+    }
+
+    try {
+      console.log('📤 [STEP1] Guardando objetivos...');
+      setSubmitting(true);
+      setError(null);
+
+      const token = authService.getAuthToken();
+      if (!token) {
+        throw new Error('No se encontró el token de autenticación');
+      }
+
+      const url = getApiUrl(API_CONFIG.ENDPOINTS.ONBOARDING_STEP_1);
+      console.log('🌐 [STEP1] URL:', url);
+      console.log('📊 [STEP1] Enviando objetivo:', formData.gender);
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          goals: [formData.gender],
+        }),
+      });
+
+      console.log('📡 [STEP1] Respuesta status:', response.status);
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        console.error('❌ [STEP1] Error en respuesta:', errorData);
+        throw new Error(errorData.message || 'Error al guardar los objetivos');
+      }
+
+      const data = await response.json();
+      console.log('✅ [STEP1] Objetivos guardados:', data);
+
+      // Actualizar el formulario y avanzar
       onUpdate(formData);
       onNext();
+    } catch (err) {
+      console.error('💥 [STEP1] Error al guardar objetivos:', err);
+      setError(
+        err instanceof Error
+          ? err.message
+          : 'Error al guardar los objetivos. Intenta nuevamente.',
+      );
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -237,8 +287,9 @@ const FormStep1: React.FC<FormStep1Props> = ({
             expand="block"
             onClick={handleNext}
             className="next-button"
+            disabled={submitting}
           >
-            Siguiente
+            {submitting ? 'Guardando...' : 'Siguiente'}
           </IonButton>
         </div>
       </IonCardContent>

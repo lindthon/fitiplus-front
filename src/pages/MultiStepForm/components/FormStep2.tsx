@@ -15,6 +15,8 @@ import {
   IonText,
 } from '@ionic/react';
 import React, { useRef, useState } from 'react';
+import { API_CONFIG, getApiUrl } from '../../../config/api';
+import authService from '../../../services/AuthService';
 import { FormData } from '../MultiStepForm';
 import './FormStep2.css';
 
@@ -45,6 +47,8 @@ const FormStep2: React.FC<FormStep2Props> = ({
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const modalRef = useRef<HTMLIonModalElement>(null);
 
   const handleInputChange = (field: string, value: any) => {
@@ -107,10 +111,78 @@ const FormStep2: React.FC<FormStep2Props> = ({
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleNext = () => {
-    if (validateForm()) {
+  const handleNext = async () => {
+    if (!validateForm()) {
+      return;
+    }
+
+    try {
+      console.log('📤 [STEP2] Guardando información personal...');
+      setSubmitting(true);
+      setError(null);
+
+      const token = authService.getAuthToken();
+      if (!token) {
+        throw new Error('No se encontró el token de autenticación');
+      }
+
+      // Formatear la fecha de nacimiento a YYYY-MM-DD
+      const birthDate = formData.dateOfBirth
+        ? new Date(formData.dateOfBirth).toISOString().split('T')[0]
+        : '';
+
+      // Mapear el género a inglés
+      const genderMap: Record<string, string> = {
+        masculino: 'male',
+        femenino: 'female',
+      };
+
+      const url = getApiUrl(API_CONFIG.ENDPOINTS.ONBOARDING_STEP_2);
+      console.log('🌐 [STEP2] URL:', url);
+      console.log('📊 [STEP2] Enviando datos:', {
+        weight: formData.weight,
+        height: formData.height,
+        birthDate,
+        gender: genderMap[formData.gender] || formData.gender,
+      });
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          weight: formData.weight,
+          height: formData.height,
+          birthDate,
+          gender: genderMap[formData.gender] || formData.gender,
+        }),
+      });
+
+      console.log('📡 [STEP2] Respuesta status:', response.status);
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        console.error('❌ [STEP2] Error en respuesta:', errorData);
+        throw new Error(errorData.message || 'Error al guardar la información');
+      }
+
+      const data = await response.json();
+      console.log('✅ [STEP2] Información guardada:', data);
+
+      // Actualizar el formulario y avanzar
       onUpdate(formData);
       onNext();
+    } catch (err) {
+      console.error('💥 [STEP2] Error al guardar información:', err);
+      setError(
+        err instanceof Error
+          ? err.message
+          : 'Error al guardar la información. Intenta nuevamente.',
+      );
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -133,6 +205,15 @@ const FormStep2: React.FC<FormStep2Props> = ({
       </IonCardHeader>
 
       <IonCardContent>
+        {error && (
+          <IonText
+            color="warning"
+            style={{ textAlign: 'center', padding: '10px', display: 'block' }}
+          >
+            <p>{error}</p>
+          </IonText>
+        )}
+
         <div className="form-fields">
           {/* Peso Picker */}
           <div className="picker-container">
@@ -412,6 +493,7 @@ const FormStep2: React.FC<FormStep2Props> = ({
             fill="outline"
             onClick={handlePrev}
             className="prev-button"
+            disabled={submitting}
           >
             Anterior
           </IonButton>
@@ -419,8 +501,9 @@ const FormStep2: React.FC<FormStep2Props> = ({
             expand="block"
             onClick={handleNext}
             className="next-button"
+            disabled={submitting}
           >
-            Siguiente
+            {submitting ? 'Guardando...' : 'Siguiente'}
           </IonButton>
         </div>
       </IonCardContent>

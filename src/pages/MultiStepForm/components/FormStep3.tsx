@@ -55,6 +55,8 @@ const FormStep3: React.FC<FormStep3Props> = ({
   const [selectedAllergies, setSelectedAllergies] = useState<string[]>([]);
   const [loadingAllergies, setLoadingAllergies] = useState(false);
   const [allergiesError, setAllergiesError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const healthConditions = [
     { key: 'diabetes', label: 'Diabetes' },
@@ -189,8 +191,55 @@ const FormStep3: React.FC<FormStep3Props> = ({
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = () => {
-    if (validateForm()) {
+  const handleSubmit = async () => {
+    if (!validateForm()) {
+      return;
+    }
+
+    try {
+      console.log('📤 [STEP3] Guardando información de salud...');
+      setSubmitting(true);
+      setError(null);
+
+      const token = authService.getAuthToken();
+      if (!token) {
+        throw new Error('No se encontró el token de autenticación');
+      }
+
+      const url = getApiUrl(API_CONFIG.ENDPOINTS.ONBOARDING_STEP_3);
+      console.log('🌐 [STEP3] URL:', url);
+      console.log('📊 [STEP3] Enviando datos:', {
+        hasDiabetes: formData.diabetes,
+        hasHypertension: formData.hypertension,
+        hasHighCholesterol: formData.highCholesterol,
+        allergies: selectedAllergies,
+      });
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          hasDiabetes: formData.diabetes,
+          hasHypertension: formData.hypertension,
+          hasHighCholesterol: formData.highCholesterol,
+          allergies: selectedAllergies,
+        }),
+      });
+
+      console.log('📡 [STEP3] Respuesta status:', response.status);
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        console.error('❌ [STEP3] Error en respuesta:', errorData);
+        throw new Error(errorData.message || 'Error al guardar la información');
+      }
+
+      const data = await response.json();
+      console.log('✅ [STEP3] Información guardada:', data);
+
       // Guardar las alergias seleccionadas como string separado por comas
       const dataToSend = {
         ...formData,
@@ -198,6 +247,15 @@ const FormStep3: React.FC<FormStep3Props> = ({
       };
       onUpdate(dataToSend);
       onSubmit();
+    } catch (err) {
+      console.error('💥 [STEP3] Error al guardar información:', err);
+      setError(
+        err instanceof Error
+          ? err.message
+          : 'Error al guardar la información. Intenta nuevamente.',
+      );
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -224,6 +282,15 @@ const FormStep3: React.FC<FormStep3Props> = ({
       </IonCardHeader>
 
       <IonCardContent>
+        {error && (
+          <IonText
+            color="warning"
+            style={{ textAlign: 'center', padding: '10px', display: 'block' }}
+          >
+            <p>{error}</p>
+          </IonText>
+        )}
+
         <div className="form-fields">
           {healthConditions.map((condition) => (
             <div key={condition.key} className="health-condition-container">
@@ -366,6 +433,7 @@ const FormStep3: React.FC<FormStep3Props> = ({
             fill="outline"
             onClick={handlePrev}
             className="prev-button"
+            disabled={submitting}
           >
             Anterior
           </IonButton>
@@ -373,8 +441,9 @@ const FormStep3: React.FC<FormStep3Props> = ({
             expand="block"
             onClick={handleSubmit}
             className="next-button"
+            disabled={submitting}
           >
-            Finalizar
+            {submitting ? 'Guardando...' : 'Finalizar'}
           </IonButton>
         </div>
       </IonCardContent>

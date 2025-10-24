@@ -25,6 +25,7 @@ import {
 } from 'ionicons/icons';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { API_CONFIG, getApiUrl } from '../../config/api';
 import { ROUTES } from '../../config/routes';
 import { authService, LoginCredentials } from '../../services/AuthService';
 import './Login.css';
@@ -32,6 +33,28 @@ import './Login.css';
 interface LoginFormData {
   email: string;
   password: string;
+}
+
+interface OnboardingProgress {
+  currentStep: number;
+  completedSteps: number[];
+  isComplete: boolean;
+  data: {
+    goals?: string[];
+    physicalData?: {
+      weight: number;
+      height: number;
+      age: number;
+      birthDate: string;
+      gender: string;
+    };
+    medicalConditions?: {
+      hasDiabetes: boolean;
+      hasHypertension: boolean;
+      hasHighCholesterol: boolean;
+    };
+    allergies?: string[];
+  };
 }
 
 const Login: React.FC = () => {
@@ -81,6 +104,39 @@ const Login: React.FC = () => {
     return true;
   };
 
+  const checkOnboardingProgress =
+    async (): Promise<OnboardingProgress | null> => {
+      try {
+        const token = authService.getAuthToken();
+        if (!token) {
+          console.error('No se encontró el token');
+          return null;
+        }
+
+        const response = await fetch(
+          getApiUrl(API_CONFIG.ENDPOINTS.ONBOARDING_PROGRESS),
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+
+        if (!response.ok) {
+          console.error('Error al consultar el progreso del onboarding');
+          return null;
+        }
+
+        const data: OnboardingProgress = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error en checkOnboardingProgress:', error);
+        return null;
+      }
+    };
+
   const handleLogin = async () => {
     if (!validateForm()) return;
 
@@ -95,10 +151,14 @@ const Login: React.FC = () => {
       const response = await authService.login(credentials);
 
       if (response.success) {
-        // Redirigir a la página de presentación después del login exitoso
-        if (response.isOnboardingCompleted) {
+        // Verificar el progreso del onboarding
+        const progress = await checkOnboardingProgress();
+
+        if (progress && progress.isComplete) {
+          // Si completó el onboarding, ir a la pantalla principal
           history.push(ROUTES.TAB1);
         } else {
+          // Si no ha completado el onboarding, ir a la presentación
           history.push(ROUTES.PRESENTATION);
         }
       } else {
