@@ -1,5 +1,5 @@
 .presentation-content {
-  --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --background: #ffffff;
 }
 
 .presentation-container {
@@ -103,12 +103,12 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(102, 126, 234, 0.4);
   transition: all 0.3s ease;
 }
 
 .indicator.active {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(102, 126, 234, 0.9);
   transform: scale(1.2);
 }
 
@@ -127,14 +127,14 @@
 }
 
 .skip-button {
-  --color: rgba(255, 255, 255, 0.8);
+  --color: rgba(102, 126, 234, 0.8);
   font-size: 0.9rem;
   text-transform: none;
   font-weight: 500;
 }
 
 .skip-button:hover {
-  --color: rgba(255, 255, 255, 1);
+  --color: rgba(102, 126, 234, 1);
 }
 
 /* Animaciones */
@@ -259,7 +259,7 @@
 }
 
 .presentation-slides .swiper-pagination-bullet {
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(102, 126, 234, 0.4);
   opacity: 1;
   width: 12px;
   height: 12px;
@@ -267,7 +267,7 @@
 }
 
 .presentation-slides .swiper-pagination-bullet-active {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(102, 126, 234, 0.9);
   transform: scale(1.2);
 }
 

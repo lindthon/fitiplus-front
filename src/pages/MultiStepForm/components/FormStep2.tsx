@@ -4,15 +4,17 @@ import {
   IonCardContent,
   IonCardHeader,
   IonCardTitle,
+  IonDatetime,
   IonItem,
   IonLabel,
+  IonModal,
   IonRadio,
   IonRadioGroup,
   IonSelect,
   IonSelectOption,
   IonText,
 } from '@ionic/react';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { FormData } from '../MultiStepForm';
 import './FormStep2.css';
 
@@ -21,6 +23,8 @@ interface FormStep2Props {
   onNext: () => void;
   onPrev: () => void;
   onUpdate: (data: Partial<FormData>) => void;
+  title?: string;
+  description?: string;
 }
 
 const FormStep2: React.FC<FormStep2Props> = ({
@@ -28,16 +32,20 @@ const FormStep2: React.FC<FormStep2Props> = ({
   onNext,
   onPrev,
   onUpdate,
+  title = 'Información Personal',
+  description = 'Completa tus datos básicos',
 }) => {
   const [formData, setFormData] = useState({
     weight: data.weight || 70,
     height: data.height || 170,
-    age: data.age || 25,
+    dateOfBirth: data.dateOfBirth || '',
     gender: data.gender || '',
     isPregnant: data.isPregnant || false,
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const modalRef = useRef<HTMLIonModalElement>(null);
 
   const handleInputChange = (field: string, value: any) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -71,8 +79,24 @@ const FormStep2: React.FC<FormStep2Props> = ({
       newErrors.height = 'La altura debe estar entre 100 y 250 cm';
     }
 
-    if (!formData.age || formData.age < 13 || formData.age > 100) {
-      newErrors.age = 'La edad debe estar entre 13 y 100 años';
+    if (!formData.dateOfBirth) {
+      newErrors.dateOfBirth = 'Selecciona tu fecha de nacimiento';
+    } else {
+      // Validar que la persona tenga al menos 13 años
+      const birthDate = new Date(formData.dateOfBirth);
+      const today = new Date();
+      const age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      const dayDiff = today.getDate() - birthDate.getDate();
+
+      const actualAge =
+        monthDiff < 0 || (monthDiff === 0 && dayDiff < 0) ? age - 1 : age;
+
+      if (actualAge < 13) {
+        newErrors.dateOfBirth = 'Debes tener al menos 13 años';
+      } else if (actualAge > 120) {
+        newErrors.dateOfBirth = 'Por favor verifica tu fecha de nacimiento';
+      }
     }
 
     if (!formData.gender) {
@@ -100,10 +124,10 @@ const FormStep2: React.FC<FormStep2Props> = ({
       <IonCardHeader>
         <IonCardTitle className="step-title">
           <IonText color="primary">
-            <h2>Información Personal</h2>
+            <h2>{title}</h2>
           </IonText>
           <IonText color="medium">
-            <p>Completa tus datos básicos</p>
+            <p>{description}</p>
           </IonText>
         </IonCardTitle>
       </IonCardHeader>
@@ -162,29 +186,168 @@ const FormStep2: React.FC<FormStep2Props> = ({
             )}
           </div>
 
-          {/* Edad Picker */}
+          {/* Fecha de Nacimiento */}
           <div className="picker-container">
-            <IonItem className="picker-item">
-              <IonLabel position="stacked">Edad (años)</IonLabel>
-              <IonSelect
-                value={formData.age}
-                interface="action-sheet"
-                placeholder="Selecciona tu edad"
-                onIonChange={(e) => handleInputChange('age', e.detail.value)}
-                className={errors.age ? 'ion-invalid' : ''}
+            <div
+              className="picker-item"
+              onClick={() => setShowDatePicker(true)}
+              style={{
+                cursor: 'pointer',
+                border: '1px solid #ddd',
+                borderRadius: '8px',
+                padding: '16px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '8px',
+              }}
+            >
+              <IonLabel
+                style={{
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  color: '#666',
+                  marginBottom: '4px',
+                }}
               >
-                {Array.from({ length: 88 }, (_, i) => i + 13).map((age) => (
-                  <IonSelectOption key={age} value={age}>
-                    {age} años
-                  </IonSelectOption>
-                ))}
-              </IonSelect>
-            </IonItem>
-            {errors.age && (
+                Fecha de Nacimiento
+              </IonLabel>
+              <IonText
+                style={{
+                  fontSize: '16px',
+                  color: formData.dateOfBirth ? '#000' : '#999',
+                }}
+              >
+                {formData.dateOfBirth
+                  ? new Date(formData.dateOfBirth).toLocaleDateString('es-ES', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })
+                  : 'Selecciona tu fecha de nacimiento'}
+              </IonText>
+            </div>
+            {errors.dateOfBirth && (
               <IonText color="danger" className="error-text">
-                {errors.age}
+                {errors.dateOfBirth}
               </IonText>
             )}
+
+            <IonModal
+              ref={modalRef}
+              isOpen={showDatePicker}
+              onDidDismiss={() => setShowDatePicker(false)}
+              breakpoints={[0, 0.75]}
+              initialBreakpoint={0.75}
+            >
+              <div
+                style={{
+                  padding: '20px',
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+              >
+                <div style={{ marginBottom: '16px' }}>
+                  <h2
+                    style={{
+                      margin: 0,
+                      fontSize: '1.25rem',
+                      fontWeight: 'bold',
+                      color: '#333',
+                    }}
+                  >
+                    Selecciona tu fecha de nacimiento
+                  </h2>
+                </div>
+                <IonDatetime
+                  presentation="date"
+                  value={formData.dateOfBirth}
+                  onIonChange={(e) => {
+                    if (e.detail.value) {
+                      handleInputChange('dateOfBirth', e.detail.value);
+                    }
+                  }}
+                  max={new Date().toISOString()}
+                  min={new Date(
+                    new Date().getFullYear() - 120,
+                    0,
+                    1,
+                  ).toISOString()}
+                  locale="es-ES"
+                  showDefaultButtons={false}
+                  style={{
+                    width: '100%',
+                    '--background': '#fff',
+                    '--border-radius': '12px',
+                  }}
+                />
+                <div
+                  style={{
+                    marginTop: '24px',
+                    display: 'flex',
+                    gap: '12px',
+                    paddingTop: '16px',
+                    borderTop: '1px solid #e0e0e0',
+                  }}
+                >
+                  <button
+                    onClick={() => setShowDatePicker(false)}
+                    style={{
+                      flex: 1,
+                      padding: '12px 24px',
+                      fontSize: '16px',
+                      fontWeight: '500',
+                      border: '2px solid #5260ff',
+                      borderRadius: '8px',
+                      backgroundColor: 'transparent',
+                      color: '#5260ff',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease',
+                    }}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.backgroundColor = '#f0f2ff';
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                    }}
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    onClick={() => {
+                      if (formData.dateOfBirth) {
+                        setShowDatePicker(false);
+                      }
+                    }}
+                    style={{
+                      flex: 1,
+                      padding: '12px 24px',
+                      fontSize: '16px',
+                      fontWeight: '500',
+                      border: 'none',
+                      borderRadius: '8px',
+                      backgroundColor: '#5260ff',
+                      color: 'white',
+                      cursor: formData.dateOfBirth ? 'pointer' : 'not-allowed',
+                      opacity: formData.dateOfBirth ? 1 : 0.5,
+                      transition: 'all 0.3s ease',
+                    }}
+                    onMouseOver={(e) => {
+                      if (formData.dateOfBirth) {
+                        e.currentTarget.style.backgroundColor = '#3d4ecc';
+                      }
+                    }}
+                    onMouseOut={(e) => {
+                      if (formData.dateOfBirth) {
+                        e.currentTarget.style.backgroundColor = '#5260ff';
+                      }
+                    }}
+                  >
+                    Confirmar
+                  </button>
+                </div>
+              </div>
+            </IonModal>
           </div>
 
           {/* Género Radio Group */}

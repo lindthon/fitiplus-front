@@ -1,15 +1,20 @@
 import { IonButton, IonContent, IonIcon, IonPage } from '@ionic/react';
 import { arrowBack } from 'ionicons/icons';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import './RecipeDetail.css';
 
 const RecipeDetail: React.FC = () => {
   const history = useHistory();
+  const { id } = useParams<{ id: string }>();
+
+  // Determinar si viene del flujo de generación de receta
+  const isGeneratedRecipe = id === 'generated-recipe';
 
   const handleAddToMeal = () => {
     // Aquí puedes agregar la lógica para añadir la receta al plan de comidas
     console.log('Receta añadida al plan de comidas');
-    // Opcional: mostrar un toast o mensaje de confirmación
+    // Redirigir directamente a la pantalla principal
+    history.push('/tabs/tab1');
   };
 
   const handleGoBack = () => {
@@ -19,20 +24,33 @@ const RecipeDetail: React.FC = () => {
   return (
     <IonPage>
       <IonContent fullscreen>
-        {/* Botón flotante de retroceder */}
-        <IonButton
-          fill="clear"
-          onClick={handleGoBack}
-          className="floating-back-button"
-        >
-          <IonIcon icon={arrowBack} />
-        </IonButton>
+        {/* Botón flotante de retroceder - solo si NO es receta generada */}
+        {!isGeneratedRecipe && (
+          <IonButton
+            fill="clear"
+            onClick={handleGoBack}
+            className="floating-back-button"
+          >
+            <IonIcon icon={arrowBack} />
+          </IonButton>
+        )}
 
         {/* Hero Image con título */}
         <div className="hero-section">
           <div className="hero-image">
+            <img
+              src="https://www.elsabor.com.ec/wp-content/uploads/2022/02/arroz-pollo.jpg"
+              alt={isGeneratedRecipe ? 'Arroz con Pollo' : 'Arroz con Pollo'}
+              className="hero-background-image"
+              onError={(e) => {
+                e.currentTarget.src =
+                  'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=1000&h=400&fit=crop&crop=center';
+              }}
+            />
             <div className="hero-overlay">
-              <h1 className="recipe-title">Ensalada Cesar con Pollo</h1>
+              <h1 className="recipe-title">
+                {isGeneratedRecipe ? 'Arroz con Pollo' : 'Arroz con Pollo'}
+              </h1>
             </div>
           </div>
         </div>
@@ -64,27 +82,25 @@ const RecipeDetail: React.FC = () => {
               <div className="ingredients-column">
                 <div className="ingredient-item">
                   <span className="ingredient-bullet">•</span>
-                  <span className="ingredient-text">25g de pollo</span>
+                  <span className="ingredient-text">300g de pollo</span>
                 </div>
                 <div className="ingredient-item">
                   <span className="ingredient-bullet">•</span>
-                  <span className="ingredient-text">2 huevos</span>
+                  <span className="ingredient-text">2 tazas de arroz</span>
                 </div>
                 <div className="ingredient-item">
                   <span className="ingredient-bullet">•</span>
-                  <span className="ingredient-text">1 tomate</span>
+                  <span className="ingredient-text">1 cebolla</span>
                 </div>
               </div>
               <div className="ingredients-column">
                 <div className="ingredient-item">
                   <span className="ingredient-bullet">•</span>
-                  <span className="ingredient-text">
-                    5 trozos de pan integral
-                  </span>
+                  <span className="ingredient-text">2 dientes de ajo</span>
                 </div>
                 <div className="ingredient-item">
                   <span className="ingredient-bullet">•</span>
-                  <span className="ingredient-text">3 trozos de lechuga</span>
+                  <span className="ingredient-text">1 pimiento</span>
                 </div>
               </div>
             </div>
@@ -96,17 +112,17 @@ const RecipeDetail: React.FC = () => {
             <div className="preparation-steps">
               <div className="preparation-step">
                 <span className="step-text">
-                  Paso 1: Cortar la berenjena en cuadritos
+                  Paso 1: Cortar el pollo en trozos pequeños
                 </span>
               </div>
               <div className="preparation-step">
                 <span className="step-text">
-                  Paso 2: Cocinar el fideo por 5 minutos con 5g de sal
+                  Paso 2: Sofreír la cebolla y el ajo hasta que estén dorados
                 </span>
               </div>
               <div className="preparation-step">
                 <span className="step-text">
-                  Paso 3: Sazonar la carne con sal y el ajo al gusto
+                  Paso 3: Agregar el pollo y cocinar hasta que esté dorado
                 </span>
               </div>
             </div>

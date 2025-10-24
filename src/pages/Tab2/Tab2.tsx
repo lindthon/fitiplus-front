@@ -74,7 +74,6 @@ const Tab2: React.FC = () => {
             </div>
           ))}
         </div>
-
       </IonContent>
     </IonPage>
   );

@@ -83,6 +83,46 @@
   letter-spacing: -0.025em;
 }
 
+/* Header del día con botón de calendario */
+.tab3-content .day-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.tab3-content .calendar-button {
+  --background: rgba(249, 250, 251, 0.8);
+  --color: #6b7280;
+  --border-radius: 20px;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  --box-shadow: none;
+  --border-width: 1px;
+  --border-style: solid;
+  --border-color: #e5e7eb;
+  width: 48px;
+  height: 48px;
+  transition: all 0.2s ease;
+}
+
+.tab3-content .calendar-button:hover {
+  --background: rgba(255, 255, 255, 0.9);
+  --color: #8b5cf6;
+  --border-color: #8b5cf6;
+  transform: scale(1.05);
+}
+
+.tab3-content .calendar-button:active {
+  transform: scale(0.95);
+}
+
+.tab3-content .calendar-button ion-icon {
+  font-size: 24px;
+}
+
 /* Lista de comidas */
 .tab3-content .meal-list {
   display: flex;
@@ -265,5 +305,70 @@
     width: 32px;
     height: 32px;
     font-size: 12px;
+  }
+}
+
+/* Modal del calendario */
+.calendar-modal {
+  background: white;
+  border-radius: 16px 16px 0 0;
+  padding: 24px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.calendar-header h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.calendar-header ion-button {
+  --color: #6b7280;
+  --padding-start: 8px;
+  --padding-end: 8px;
+  --padding-top: 8px;
+  --padding-bottom: 8px;
+  font-size: 18px;
+}
+
+.calendar-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.calendar-datetime {
+  --background: transparent;
+  --color: #111827;
+  font-size: 16px;
+  width: 100%;
+  max-width: 300px;
+}
+
+/* Responsive para el modal */
+@media (max-width: 768px) {
+  .calendar-modal {
+    padding: 20px;
+  }
+
+  .calendar-header h3 {
+    font-size: 18px;
+  }
+
+  .calendar-datetime {
+    max-width: 280px;
   }
 }

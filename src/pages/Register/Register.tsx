@@ -27,6 +27,7 @@ import {
 import { FC, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { ROUTES } from '../../config/routes';
+import { authService } from '../../services/AuthService';
 import './Register.css';
 
 interface RegisterFormData {
@@ -120,23 +121,53 @@ const Register: FC = () => {
     setIsLoading(true);
 
     try {
-      // Simular llamada a API de registro
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      console.log('📝 [REGISTER] Iniciando registro desde componente', {
+        email: formData.email,
+        name: formData.name,
+        timestamp: new Date().toISOString(),
+      });
 
-      // Aquí iría la lógica real de registro
-      console.log('Datos de registro:', formData);
+      const result = await authService.register({
+        email: formData.email,
+        password: formData.password,
+        name: formData.name,
+      });
 
-      // Mostrar mensaje de éxito y redirigir
-      setAlertMessage(
-        '¡Cuenta creada exitosamente! Ahora puedes iniciar sesión.',
-      );
-      setShowAlert(true);
+      if (result.success) {
+        console.log('✅ [REGISTER] Registro exitoso desde componente', {
+          userId: result.user?.id,
+          userEmail: result.user?.email,
+          userName: result.user?.name,
+        });
 
-      // Redirigir a login después de un momento
-      setTimeout(() => {
-        history.push(ROUTES.PRESENTATION);
-      }, 2000);
+        setAlertMessage('¡Cuenta creada exitosamente! Bienvenido a FitiPlus.');
+        setShowAlert(true);
+
+        // Redirigir a la pantalla principal después del registro exitoso
+        setTimeout(() => {
+          history.push(ROUTES.TABS);
+        }, 2000);
+      } else {
+        console.error('❌ [REGISTER] Error en registro desde componente', {
+          error: result.message,
+          statusCode: result.statusCode,
+        });
+
+        setAlertMessage(
+          result.message ||
+            'Error al crear la cuenta. Por favor intenta nuevamente.',
+        );
+        setShowAlert(true);
+      }
     } catch (error) {
+      console.error(
+        '💥 [REGISTER] Error crítico en registro desde componente',
+        {
+          error: error instanceof Error ? error.message : 'Error desconocido',
+          stack: error instanceof Error ? error.stack : undefined,
+        },
+      );
+
       setAlertMessage(
         'Error al crear la cuenta. Por favor intenta nuevamente.',
       );

@@ -9,15 +9,18 @@ import {
   setupIonicReact,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { home, time, trophy } from 'ionicons/icons';
+import { home, person, time, trophy } from 'ionicons/icons';
 import { Redirect, Route } from 'react-router-dom';
 import SimpleAuthCheck from './components/SimpleAuthCheck';
 import { ROUTES } from './config/routes';
 import IngredientSelection from './pages/IngredientSelection';
 import Login from './pages/Login';
+import MealRegistration from './pages/MealRegistration';
 import MultiStepForm from './pages/MultiStepForm';
 import Presentation from './pages/Presentation';
+import Profile from './pages/Profile';
 import RecipeDetail from './pages/RecipeDetail';
+import RecipeGeneration from './pages/RecipeGeneration';
 import Register from './pages/Register';
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
@@ -81,6 +84,21 @@ const App: React.FC = () => (
             <IngredientSelection />
           </SimpleAuthCheck>
         </Route>
+        <Route exact path={ROUTES.MEAL_REGISTRATION}>
+          <SimpleAuthCheck>
+            <MealRegistration />
+          </SimpleAuthCheck>
+        </Route>
+        <Route exact path={ROUTES.RECIPE_GENERATION}>
+          <SimpleAuthCheck>
+            <RecipeGeneration />
+          </SimpleAuthCheck>
+        </Route>
+        <Route exact path={ROUTES.PROFILE}>
+          <SimpleAuthCheck>
+            <Profile />
+          </SimpleAuthCheck>
+        </Route>
         <Route path={ROUTES.TABS}>
           <SimpleAuthCheck>
             <IonTabs>
@@ -94,6 +112,9 @@ const App: React.FC = () => (
                 <Route path={ROUTES.TAB3}>
                   <Tab3 />
                 </Route>
+                <Route exact path={ROUTES.TAB4}>
+                  <Profile />
+                </Route>
                 <Route exact path={ROUTES.TABS}>
                   <Redirect to={ROUTES.TAB1} />
                 </Route>
@@ -101,16 +122,20 @@ const App: React.FC = () => (
               <IonTabBar slot="bottom">
                 <IonTabButton tab="tab1" href={ROUTES.TAB1}>
                   <IonIcon aria-hidden="true" icon={home} />
-                  <IonLabel>Tab 1</IonLabel>
+                  <IonLabel>Principal</IonLabel>
                 </IonTabButton>
 
                 <IonTabButton tab="tab3" href={ROUTES.TAB3}>
                   <IonIcon aria-hidden="true" icon={time} />
-                  <IonLabel>Tab 3</IonLabel>
+                  <IonLabel>Historial</IonLabel>
                 </IonTabButton>
                 <IonTabButton tab="tab2" href={ROUTES.TAB2}>
                   <IonIcon aria-hidden="true" icon={trophy} />
-                  <IonLabel>Tab 2</IonLabel>
+                  <IonLabel>Medallas</IonLabel>
+                </IonTabButton>
+                <IonTabButton tab="tab4" href={ROUTES.TAB4}>
+                  <IonIcon aria-hidden="true" icon={person} />
+                  <IonLabel>Perfil</IonLabel>
                 </IonTabButton>
               </IonTabBar>
             </IonTabs>

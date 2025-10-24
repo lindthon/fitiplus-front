@@ -1,9 +1,5 @@
 .multi-step-form-content {
-  --background: linear-gradient(
-    135deg,
-    var(--ion-color-primary) 0%,
-    var(--ion-color-secondary) 100%
-  );
+  --background: #ffffff;
 }
 
 .form-container {
@@ -21,14 +17,14 @@
 .step-indicator {
   font-size: 1rem;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(102, 126, 234, 0.9);
   margin-bottom: 10px;
   display: block;
 }
 
 .progress-bar {
-  --background: rgba(255, 255, 255, 0.2);
-  --progress-background: rgba(255, 255, 255, 0.9);
+  --background: rgba(102, 126, 234, 0.2);
+  --progress-background: rgba(102, 126, 234, 0.9);
   height: 6px;
   border-radius: 3px;
 }

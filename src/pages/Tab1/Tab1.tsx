@@ -14,7 +14,7 @@ const Tab1: React.FC = () => {
   };
 
   const handleGenerateRecipe = () => {
-    history.push(ROUTES.INGREDIENT_SELECTION);
+    history.push(ROUTES.MEAL_REGISTRATION);
   };
 
   return (

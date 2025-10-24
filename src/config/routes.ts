@@ -2,7 +2,7 @@
 export const ROUTES = {
   // Rutas públicas
   LOGIN: '/login',
-  REGISTER: '/register',
+  REGISTER: '/register-client',
   PRESENTATION: '/presentation',
   MULTI_STEP_FORM: '/form',
   ROOT: '/',
@@ -12,8 +12,12 @@ export const ROUTES = {
   TAB1: '/tabs/tab1',
   TAB2: '/tabs/tab2',
   TAB3: '/tabs/tab3',
+  TAB4: '/tabs/tab4',
   RECIPE_DETAIL: '/recipe/:id',
   INGREDIENT_SELECTION: '/ingredient-selection',
+  MEAL_REGISTRATION: '/meal-registration',
+  RECIPE_GENERATION: '/recipe-generation',
+  PROFILE: '/profile',
 } as const;
 
 // Rutas que requieren autenticación
@@ -22,8 +26,12 @@ export const PROTECTED_ROUTES = [
   ROUTES.TAB1,
   ROUTES.TAB2,
   ROUTES.TAB3,
+  ROUTES.TAB4,
   ROUTES.RECIPE_DETAIL,
   ROUTES.INGREDIENT_SELECTION,
+  ROUTES.MEAL_REGISTRATION,
+  ROUTES.RECIPE_GENERATION,
+  ROUTES.PROFILE,
 ] as const;
 
 // Rutas públicas (no requieren autenticación)

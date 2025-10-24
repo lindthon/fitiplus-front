@@ -1,0 +1,413 @@
+/* MealRegistration específico */
+.meal-registration-content {
+  --background: #ffffff;
+}
+
+.registration-header {
+  margin-bottom: 32px;
+  animation: fadeInDown 0.6s ease-out;
+}
+
+.registration-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #1f2937;
+  margin: 0;
+  text-align: left;
+}
+
+/* Image Upload Section */
+.image-upload-section {
+  margin-bottom: 32px;
+  animation: slideInUp 0.6s ease-out 0.2s both;
+}
+
+.upload-card {
+  background: linear-gradient(135deg, #f3e8ff, #e9d5ff);
+  border-radius: 16px;
+  padding: 32px 24px;
+  text-align: center;
+  border: 2px dashed #8b5cf6;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.upload-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.2);
+}
+
+.upload-icon {
+  margin-bottom: 16px;
+}
+
+.upload-icon ion-icon,
+.upload-icon .ion-icon,
+.upload-icon svg {
+  font-size: 80px !important;
+  width: 80px !important;
+  height: 80px !important;
+  color: #8b5cf6;
+}
+
+.upload-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: #6b7280;
+  margin: 0 0 8px 0;
+}
+
+.upload-formats {
+  font-size: 14px;
+  color: #9ca3af;
+  margin: 0 0 20px 0;
+}
+
+.file-input {
+  display: none;
+}
+
+.upload-button {
+  background: #8b5cf6;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.upload-button:hover {
+  background: #7c3aed;
+  transform: translateY(-1px);
+}
+
+/* Image Preview */
+.image-preview {
+  position: relative;
+  margin-bottom: 16px;
+  border-radius: 12px;
+  overflow: hidden;
+  width: 100%;
+  height: 200px;
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 12px;
+}
+
+.image-preview:hover .image-overlay {
+  opacity: 1;
+}
+
+.image-overlay ion-icon {
+  color: white;
+  font-size: 40px !important;
+  width: 40px !important;
+  height: 40px !important;
+}
+
+/* Manual Input Section */
+.manual-input-section {
+  margin-bottom: 32px;
+  animation: fadeInUp 0.6s ease-out 0.4s both;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #1f2937;
+  margin: 0 0 16px 0;
+}
+
+.meal-input {
+  --background: #ffffff;
+  --border-radius: 12px;
+  --border-width: 1px;
+  --border-color: #e5e7eb;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+  --color: #374151;
+  --placeholder-color: #9ca3af;
+  font-size: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.meal-input:focus-within {
+  --border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+/* Ingredients Section */
+.ingredients-section {
+  margin-bottom: 40px;
+  animation: fadeInUp 0.6s ease-out 0.6s both;
+}
+
+.ingredients-textarea {
+  --background: #ffffff;
+  --border-radius: 12px;
+  --border-width: 1px;
+  --border-color: #e5e7eb;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+  --color: #374151;
+  --placeholder-color: #9ca3af;
+  font-size: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  resize: none;
+}
+
+.ingredients-textarea:focus-within {
+  --border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+/* Register Button */
+.register-button-container {
+  animation: fadeInUp 0.6s ease-out 0.8s both;
+}
+
+.register-button {
+  --background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  --color: white;
+  --border-radius: 16px;
+  --padding-top: 20px;
+  --padding-bottom: 20px;
+  --padding-start: 24px;
+  --padding-end: 24px;
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: none;
+  width: 100%;
+  height: 56px;
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+  transition: all 0.3s ease;
+}
+
+.register-button:hover:not([disabled]) {
+  --box-shadow: 0 12px 32px rgba(139, 92, 246, 0.4);
+  transform: translateY(-2px);
+}
+
+.register-button:disabled {
+  --background: #e5e7eb;
+  --color: #9ca3af;
+  --box-shadow: none;
+  transform: none;
+}
+
+/* Animaciones */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .registration-title {
+    font-size: 24px;
+  }
+
+  .upload-card {
+    padding: 24px 16px;
+  }
+
+  .upload-icon ion-icon,
+  .upload-icon .ion-icon,
+  .upload-icon svg {
+    font-size: 72px !important;
+    width: 72px !important;
+    height: 72px !important;
+  }
+
+  .upload-text {
+    font-size: 15px;
+  }
+
+  .section-title {
+    font-size: 16px;
+  }
+
+  .meal-input,
+  .ingredients-textarea {
+    font-size: 15px;
+  }
+
+  /* Lista de imágenes subidas */
+  .meal-registration-content .uploaded-images-section {
+    margin-bottom: 32px;
+    animation: fadeInUp 0.6s ease-out 0.3s both;
+  }
+
+  .meal-registration-content .images-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .meal-registration-content .image-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .meal-registration-content .image-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .meal-registration-content .image-preview {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .meal-registration-content .preview-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .meal-registration-content .image-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .meal-registration-content .image-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .meal-registration-content .image-size {
+    font-size: 14px;
+    color: #6b7280;
+  }
+
+  .meal-registration-content .remove-button {
+    --color: #ef4444;
+    --background: transparent;
+    --border-radius: 12px;
+    --padding-start: 8px;
+    --padding-end: 8px;
+    --padding-top: 8px;
+    --padding-bottom: 8px;
+    width: 40px;
+    height: 40px;
+    transition: all 0.2s ease;
+  }
+
+  .meal-registration-content .remove-button:hover {
+    --background: rgba(239, 68, 68, 0.1);
+    transform: scale(1.1);
+  }
+
+  .meal-registration-content .remove-button:active {
+    transform: scale(0.95);
+  }
+
+  .meal-registration-content .remove-button ion-icon {
+    font-size: 20px;
+  }
+}
+/* Responsive para imágenes */
+@media (max-width: 768px) {
+  .meal-registration-content .image-item {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .meal-registration-content .image-preview {
+    width: 50px;
+    height: 50px;
+  }
+
+  .meal-registration-content .image-name {
+    font-size: 15px;
+  }
+
+  .meal-registration-content .image-size {
+    font-size: 13px;
+  }
+
+  .meal-registration-content .remove-button {
+    width: 36px;
+    height: 36px;
+  }
+
+  .meal-registration-content .remove-button ion-icon {
+    font-size: 18px;
+  }
+}

@@ -1,9 +1,83 @@
-import { IonButton, IonContent, IonPage } from '@ionic/react';
+import {
+  IonButton,
+  IonContent,
+  IonDatetime,
+  IonIcon,
+  IonModal,
+  IonPage,
+} from '@ionic/react';
+import { calendar } from 'ionicons/icons';
+import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import './Tab3.css';
 
 const Tab3: React.FC = () => {
   const history = useHistory();
+
+  // Estado para la fecha seleccionada
+  const [selectedDate, setSelectedDate] = useState<string>(() => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  });
+
+  // Estado para el modal del calendario
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+
+  // Función para formatear la fecha
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString + 'T00:00:00'); // Forzar zona horaria local
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    // Comparar solo las fechas (sin hora)
+    const dateOnly = date.toDateString();
+    const todayOnly = today.toDateString();
+    const yesterdayOnly = yesterday.toDateString();
+
+    if (dateOnly === todayOnly) {
+      return 'Hoy';
+    } else if (dateOnly === yesterdayOnly) {
+      return 'Ayer';
+    } else {
+      return date.toLocaleDateString('es-ES', {
+        weekday: 'short',
+        day: 'numeric',
+        month: 'short',
+      });
+    }
+  };
+
+  // Función para ir al día anterior
+  const goToPreviousDay = () => {
+    const [year, month, day] = selectedDate.split('-').map(Number);
+    const currentDate = new Date(year, month - 1, day);
+    currentDate.setDate(currentDate.getDate() - 1);
+
+    const newYear = currentDate.getFullYear();
+    const newMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const newDay = String(currentDate.getDate()).padStart(2, '0');
+    setSelectedDate(`${newYear}-${newMonth}-${newDay}`);
+  };
+
+  // Función para abrir el calendario
+  const openCalendar = () => {
+    setIsCalendarOpen(true);
+  };
+
+  // Función para cerrar el calendario
+  const closeCalendar = () => {
+    setIsCalendarOpen(false);
+  };
+
+  // Función para confirmar la fecha seleccionada
+  const confirmDate = (date: string) => {
+    setSelectedDate(date);
+    setIsCalendarOpen(false);
+  };
 
   // Función para navegar al detalle de la receta
   const handleViewRecipe = (mealId: string) => {
@@ -71,7 +145,12 @@ const Tab3: React.FC = () => {
 
         {/* Sección del día */}
         <div className="day-section">
-          <h2 className="day-title">Hoy</h2>
+          <div className="day-header">
+            <h2 className="day-title">{formatDate(selectedDate)}</h2>
+            <IonButton className="calendar-button" onClick={openCalendar}>
+              <IonIcon slot="icon-only" icon={calendar} />
+            </IonButton>
+          </div>
         </div>
 
         {/* Lista de comidas */}
@@ -114,10 +193,35 @@ const Tab3: React.FC = () => {
 
         {/* Botón día anterior */}
         <div className="previous-day-container">
-          <IonButton className="previous-day-button" fill="solid">
+          <IonButton
+            className="previous-day-button"
+            fill="solid"
+            onClick={goToPreviousDay}
+          >
             Día anterior
           </IonButton>
         </div>
+
+        {/* Modal del calendario */}
+        <IonModal isOpen={isCalendarOpen} onDidDismiss={closeCalendar}>
+          <div className="calendar-modal">
+            <div className="calendar-header">
+              <h3>Seleccionar fecha</h3>
+              <IonButton fill="clear" onClick={closeCalendar}>
+                ✕
+              </IonButton>
+            </div>
+            <div className="calendar-content">
+              <IonDatetime
+                value={selectedDate}
+                onIonChange={(e) => confirmDate(e.detail.value as string)}
+                presentation="date"
+                locale="es-ES"
+                className="calendar-datetime"
+              />
+            </div>
+          </div>
+        </IonModal>
       </IonContent>
     </IonPage>
   );
