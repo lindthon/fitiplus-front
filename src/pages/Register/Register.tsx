@@ -143,9 +143,9 @@ const Register: FC = () => {
         setAlertMessage('¡Cuenta creada exitosamente! Bienvenido a FitiPlus.');
         setShowAlert(true);
 
-        // Redirigir a la pantalla principal después del registro exitoso
+        // Redirigir a la presentación después del registro exitoso
         setTimeout(() => {
-          history.push(ROUTES.TABS);
+          history.push(ROUTES.PRESENTATION);
         }, 2000);
       } else {
         console.error('❌ [REGISTER] Error en registro desde componente', {
