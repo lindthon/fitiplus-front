@@ -324,37 +324,3 @@
   }
 }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  .form-step-card {
-    background: rgba(44, 62, 80, 0.95);
-  }
-
-  .step-title h2 {
-    color: #ecf0f1;
-  }
-
-  .step-title p {
-    color: #bdc3c7;
-  }
-
-  .form-input-item {
-    --background: rgba(52, 73, 94, 0.8);
-    --border-color: rgba(255, 255, 255, 0.1);
-  }
-
-  .form-input-item ion-label {
-    color: #ecf0f1;
-  }
-
-  .radio-group-label,
-  .checkbox-group-label,
-  .range-label {
-    color: #ecf0f1;
-  }
-
-  .radio-group-container ion-item ion-label,
-  .checkbox-item ion-label {
-    color: #ecf0f1;
-  }
-}

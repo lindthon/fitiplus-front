@@ -51,7 +51,7 @@ import '@ionic/react/css/text-transformation.css';
 
 /* import '@ionic/react/css/palettes/dark.always.css'; */
 /* import '@ionic/react/css/palettes/dark.class.css'; */
-import '@ionic/react/css/palettes/dark.system.css';
+/* Dark mode disabled intentionally */
 
 /* Theme variables */
 import './theme/variables.css';

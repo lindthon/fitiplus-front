@@ -182,33 +182,6 @@
   }
 }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  .register-card {
-    background: rgba(44, 62, 80, 0.95);
-  }
-
-  .register-title {
-    color: #ecf0f1;
-  }
-
-  .register-subtitle {
-    color: #bdc3c7;
-  }
-
-  .register-input-item {
-    --background: rgba(52, 73, 94, 0.8);
-    --border-color: rgba(255, 255, 255, 0.1);
-  }
-
-  .register-input-item ion-label {
-    color: #ecf0f1;
-  }
-
-  .login-link-container {
-    border-top-color: rgba(255, 255, 255, 0.1);
-  }
-}
 
 /* Social Login Styles */
 .social-login-container {
@@ -266,50 +239,6 @@
   --background: rgba(66, 103, 178, 0.1);
 }
 
-/* Dark mode social buttons */
-@media (prefers-color-scheme: dark) {
-  .social-login-container {
-    border-top-color: rgba(255, 255, 255, 0.2);
-  }
-
-  .divider::before {
-    background: rgba(255, 255, 255, 0.2);
-  }
-
-  .divider span {
-    background: var(--ion-background-color);
-    color: var(--ion-color-light);
-    font-weight: 500;
-  }
-
-  .google-button {
-    --border-color: #db4437;
-    --color: #ffffff;
-    --background: rgba(219, 68, 55, 0.1);
-    border: 1px solid #db4437;
-  }
-
-  .google-button:hover {
-    --background: rgba(219, 68, 55, 0.2);
-    --color: #ffffff;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(219, 68, 55, 0.3);
-  }
-
-  .facebook-button {
-    --border-color: #4267b2;
-    --color: #ffffff;
-    --background: rgba(66, 103, 178, 0.1);
-    border: 1px solid #4267b2;
-  }
-
-  .facebook-button:hover {
-    --background: rgba(66, 103, 178, 0.2);
-    --color: #ffffff;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(66, 103, 178, 0.3);
-  }
-}
 
 .ion-color-dark .social-login-container {
   border-top-color: rgba(255, 255, 255, 0.2);

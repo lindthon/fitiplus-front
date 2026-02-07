@@ -97,29 +97,6 @@
   font-weight: 600;
 }
 
-/* Dark mode radio labels */
-@media (prefers-color-scheme: dark) {
-  .radio-options-container {
-    border-color: rgba(255, 255, 255, 0.3);
-  }
-
-  .radio-option ion-label {
-    color: var(--ion-color-light);
-  }
-
-  .radio-option:hover {
-    background: rgba(var(--ion-color-primary-rgb), 0.15);
-  }
-
-  .radio-option.selected {
-    background: var(--ion-color-primary);
-  }
-
-  .radio-option.selected ion-label {
-    color: var(--ion-color-primary-contrast);
-    font-weight: 600;
-  }
-}
 
 .ion-color-dark .radio-options-container {
   border-color: rgba(255, 255, 255, 0.3);
@@ -158,11 +135,6 @@
   color: var(--ion-color-dark);
 }
 
-@media (prefers-color-scheme: dark) {
-  .allergy-label ion-label {
-    color: var(--ion-color-light);
-  }
-}
 
 .allergy-item {
   --background: transparent;
@@ -187,12 +159,6 @@
   border-color: var(--ion-color-danger);
 }
 
-/* Dark mode */
-@media (prefers-color-scheme: dark) {
-  .allergy-item ion-input {
-    border-color: rgba(255, 255, 255, 0.3);
-  }
-}
 
 /* Error Text */
 .error-text {

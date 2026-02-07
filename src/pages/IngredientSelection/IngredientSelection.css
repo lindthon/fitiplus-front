@@ -262,29 +262,3 @@
   }
 }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  .ingredient-title {
-    color: #f3f4f6;
-  }
-
-  .main-question h2 {
-    color: #f3f4f6;
-  }
-
-  .option-card {
-    background: rgba(44, 62, 80, 0.9);
-  }
-
-  .option-title {
-    color: #ecf0f1;
-  }
-
-  .option-description {
-    color: #bdc3c7;
-  }
-
-  .option-card.selected {
-    background: #8b5cf6;
-  }
-}
