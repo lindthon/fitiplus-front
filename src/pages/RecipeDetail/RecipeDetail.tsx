@@ -2,6 +2,7 @@ import { IonButton, IonContent, IonIcon, IonPage, IonSpinner } from '@ionic/reac
 import { arrowBack } from 'ionicons/icons';
 import { useEffect, useMemo, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+import { isFeatureEnabled } from '../../config/featureFlags';
 import { RecipeDetailData, nutritionService } from '../../services/NutritionService';
 import './RecipeDetail.css';
 
@@ -175,15 +176,17 @@ const RecipeDetail: React.FC = () => {
               )}
 
               {/* Botón de acción */}
-              <div className="action-button-container">
-                <IonButton
-                  className="add-to-meal-button"
-                  fill="solid"
-                  onClick={handleAddToMeal}
-                >
-                  Añadir a mi comida de hoy
-                </IonButton>
-              </div>
+              {isFeatureEnabled('showAddToMealButton') && (
+                <div className="action-button-container">
+                  <IonButton
+                    className="add-to-meal-button"
+                    fill="solid"
+                    onClick={handleAddToMeal}
+                  >
+                    Añadir a mi comida de hoy
+                  </IonButton>
+                </div>
+              )}
             </div>
           </>
         )}
