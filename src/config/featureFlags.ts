@@ -4,6 +4,9 @@ export const featureFlags = {
   showAchievement: false,
   showDailySummary: false,
   showNutritionalProgress: false,
+  showTab2Medals: false,
+  showTab3History: false,
+  showTab4Profile: false,
 };
 
 export const isFeatureEnabled = (flag: keyof typeof featureFlags) =>

@@ -13,6 +13,7 @@ import { home, person, time, trophy } from 'ionicons/icons';
 import { Redirect, Route } from 'react-router-dom';
 import SimpleAuthCheck from './components/SimpleAuthCheck';
 import { ROUTES } from './config/routes';
+import { isFeatureEnabled } from './config/featureFlags';
 import IngredientSelection from './pages/IngredientSelection';
 import Login from './pages/Login';
 import MealRegistration from './pages/MealRegistration';
@@ -125,18 +126,24 @@ const App: React.FC = () => (
                   <IonLabel>Principal</IonLabel>
                 </IonTabButton>
 
-                <IonTabButton tab="tab3" href={ROUTES.TAB3}>
-                  <IonIcon aria-hidden="true" icon={time} />
-                  <IonLabel>Historial</IonLabel>
-                </IonTabButton>
-                <IonTabButton tab="tab2" href={ROUTES.TAB2}>
-                  <IonIcon aria-hidden="true" icon={trophy} />
-                  <IonLabel>Medallas</IonLabel>
-                </IonTabButton>
-                <IonTabButton tab="tab4" href={ROUTES.TAB4}>
-                  <IonIcon aria-hidden="true" icon={person} />
-                  <IonLabel>Perfil</IonLabel>
-                </IonTabButton>
+                {isFeatureEnabled('showTab3History') && (
+                  <IonTabButton tab="tab3" href={ROUTES.TAB3}>
+                    <IonIcon aria-hidden="true" icon={time} />
+                    <IonLabel>Historial</IonLabel>
+                  </IonTabButton>
+                )}
+                {isFeatureEnabled('showTab2Medals') && (
+                  <IonTabButton tab="tab2" href={ROUTES.TAB2}>
+                    <IonIcon aria-hidden="true" icon={trophy} />
+                    <IonLabel>Medallas</IonLabel>
+                  </IonTabButton>
+                )}
+                {isFeatureEnabled('showTab4Profile') && (
+                  <IonTabButton tab="tab4" href={ROUTES.TAB4}>
+                    <IonIcon aria-hidden="true" icon={person} />
+                    <IonLabel>Perfil</IonLabel>
+                  </IonTabButton>
+                )}
               </IonTabBar>
             </IonTabs>
           </SimpleAuthCheck>
