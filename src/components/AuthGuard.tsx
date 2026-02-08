@@ -27,7 +27,7 @@ const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
             setIsAuthenticated(true);
           } else {
             // Intentar renovar el token
-            const tokenRefreshed = await authService.refreshToken();
+            const tokenRefreshed = await authService.refreshAuthToken();
 
             if (tokenRefreshed) {
               setIsAuthenticated(true);

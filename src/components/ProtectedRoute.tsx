@@ -26,7 +26,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
             setIsAuthenticated(true);
           } else {
             // Intentar renovar el token
-            const refreshed = await authService.refreshToken();
+            const refreshed = await authService.refreshAuthToken();
             setIsAuthenticated(refreshed);
           }
         } else {
