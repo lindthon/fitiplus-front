@@ -32,6 +32,8 @@ export const API_CONFIG = {
     ONBOARDING_STEP_2: '/onboarding/step-2',
     ONBOARDING_STEP_3: '/onboarding/step-3',
     ONBOARDING_PROGRESS: '/onboarding/progress',
+    NUTRITION_RANDOM: '/nutrition/recipes/random',
+    CLIENT_RECIPE_DETAIL: '/clients/recipes/detail',
   },
 } as const;
 

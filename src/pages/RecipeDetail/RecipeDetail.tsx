@@ -1,19 +1,34 @@
-import { IonButton, IonContent, IonIcon, IonPage } from '@ionic/react';
+import { IonButton, IonContent, IonIcon, IonPage, IonSpinner } from '@ionic/react';
 import { arrowBack } from 'ionicons/icons';
+import { useEffect, useMemo, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+import { RecipeDetailData, nutritionService } from '../../services/NutritionService';
 import './RecipeDetail.css';
 
 const RecipeDetail: React.FC = () => {
   const history = useHistory();
   const { id } = useParams<{ id: string }>();
+  const [data, setData] = useState<RecipeDetailData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [imageFailed, setImageFailed] = useState(false);
 
-  // Determinar si viene del flujo de generación de receta
-  const isGeneratedRecipe = id === 'generated-recipe';
+  const imageSrc = useMemo(() => {
+    const url = data?.imageUrl;
+    if (!url) return null;
+    if (url.startsWith('data:') || url.startsWith('http')) return url;
+    // Algunos servicios retornan base64 del data URL completo (base64 de "data:image/jpeg;base64,...")
+    try {
+      const decoded = atob(url);
+      if (decoded.startsWith('data:image')) return decoded;
+    } catch {
+      // Ignorar error de decode y seguir con prefijo por defecto
+    }
+    // Asumir base64 de bytes de imagen
+    return `data:image/jpeg;base64,${url}`;
+  }, [data?.imageUrl]);
 
   const handleAddToMeal = () => {
-    // Aquí puedes agregar la lógica para añadir la receta al plan de comidas
-    console.log('Receta añadida al plan de comidas');
-    // Redirigir directamente a la pantalla principal
     history.push('/tabs/tab1');
   };
 
@@ -21,124 +36,157 @@ const RecipeDetail: React.FC = () => {
     history.goBack();
   };
 
+  useEffect(() => {
+    const load = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const detail = await nutritionService.getRecipeDetail(id);
+        setData(detail);
+      } catch (err) {
+        console.error('Error obteniendo detalle de receta', err);
+        setError('No pudimos cargar la receta.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    load();
+  }, [id]);
+
   return (
     <IonPage>
       <IonContent fullscreen>
-        {/* Botón flotante de retroceder - solo si NO es receta generada */}
-        {!isGeneratedRecipe && (
-          <IonButton
-            fill="clear"
-            onClick={handleGoBack}
-            className="floating-back-button"
-          >
-            <IonIcon icon={arrowBack} />
-          </IonButton>
+        <IonButton
+          fill="clear"
+          onClick={handleGoBack}
+          className="floating-back-button"
+        >
+          <IonIcon icon={arrowBack} />
+        </IonButton>
+
+        {isLoading && (
+          <div className="recipe-loading">
+            <IonSpinner name="crescent" />
+          </div>
         )}
 
-        {/* Hero Image con título */}
-        <div className="hero-section">
-          <div className="hero-image">
-            <img
-              src="https://www.elsabor.com.ec/wp-content/uploads/2022/02/arroz-pollo.jpg"
-              alt={isGeneratedRecipe ? 'Arroz con Pollo' : 'Arroz con Pollo'}
-              className="hero-background-image"
-              onError={(e) => {
-                e.currentTarget.src =
-                  'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=1000&h=400&fit=crop&crop=center';
-              }}
-            />
-            <div className="hero-overlay">
-              <h1 className="recipe-title">
-                {isGeneratedRecipe ? 'Arroz con Pollo' : 'Arroz con Pollo'}
-              </h1>
-            </div>
+        {!isLoading && error && (
+          <div className="recipe-error">
+            <p>{error}</p>
           </div>
-        </div>
+        )}
 
-        <div className="recipe-content">
-          {/* Aporte nutricional */}
-          <div className="nutrition-section">
-            <h2 className="section-title">Aporte nutricional</h2>
-            <div className="nutrition-card">
-              <div className="nutrition-item">
-                <div className="nutrition-icon protein">🥩</div>
-                <span className="nutrition-value">10g</span>
-              </div>
-              <div className="nutrition-item">
-                <div className="nutrition-icon fat">🧈</div>
-                <span className="nutrition-value">20g</span>
-              </div>
-              <div className="nutrition-item">
-                <div className="nutrition-icon carbs">🌾</div>
-                <span className="nutrition-value">15</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Ingredientes */}
-          <div className="ingredients-section">
-            <h2 className="section-title">Ingredientes</h2>
-            <div className="ingredients-card">
-              <div className="ingredients-column">
-                <div className="ingredient-item">
-                  <span className="ingredient-bullet">•</span>
-                  <span className="ingredient-text">300g de pollo</span>
-                </div>
-                <div className="ingredient-item">
-                  <span className="ingredient-bullet">•</span>
-                  <span className="ingredient-text">2 tazas de arroz</span>
-                </div>
-                <div className="ingredient-item">
-                  <span className="ingredient-bullet">•</span>
-                  <span className="ingredient-text">1 cebolla</span>
-                </div>
-              </div>
-              <div className="ingredients-column">
-                <div className="ingredient-item">
-                  <span className="ingredient-bullet">•</span>
-                  <span className="ingredient-text">2 dientes de ajo</span>
-                </div>
-                <div className="ingredient-item">
-                  <span className="ingredient-bullet">•</span>
-                  <span className="ingredient-text">1 pimiento</span>
+        {!isLoading && !error && data && (
+          <>
+            {/* Hero Image con título */}
+            <div className="hero-section">
+              <div className="hero-image">
+              {imageSrc && !imageFailed ? (
+                <img
+                  src={imageSrc}
+                  alt={data.name}
+                  className="hero-background-image"
+                  onError={() => setImageFailed(true)}
+                />
+              ) : (
+                <div className="hero-placeholder">Imagen no disponible</div>
+              )}
+                <div className="hero-overlay">
+                  <h1 className="recipe-title">{data.name}</h1>
+                  {data.totalCalories && (
+                    <p className="recipe-subtitle">{data.totalCalories} kcal</p>
+                  )}
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Preparación */}
-          <div className="preparation-section">
-            <h2 className="section-title">Preparación</h2>
-            <div className="preparation-steps">
-              <div className="preparation-step">
-                <span className="step-text">
-                  Paso 1: Cortar el pollo en trozos pequeños
-                </span>
-              </div>
-              <div className="preparation-step">
-                <span className="step-text">
-                  Paso 2: Sofreír la cebolla y el ajo hasta que estén dorados
-                </span>
-              </div>
-              <div className="preparation-step">
-                <span className="step-text">
-                  Paso 3: Agregar el pollo y cocinar hasta que esté dorado
-                </span>
+            <div className="recipe-content">
+              {/* Descripción */}
+              {data.description && (
+                <div className="description-section">
+                  <p>{data.description}</p>
+                </div>
+              )}
+
+              {/* Aporte nutricional */}
+              {data.macros && (
+                <div className="nutrition-section">
+                  <h2 className="section-title">Aporte nutricional</h2>
+                  <div className="nutrition-card">
+                    {data.macros.proteins !== undefined && (
+                      <div className="nutrition-item">
+                        <div className="nutrition-icon protein">🥩</div>
+                        <span className="nutrition-value">
+                          {data.macros.proteins} g P
+                        </span>
+                      </div>
+                    )}
+                    {data.macros.fats !== undefined && (
+                      <div className="nutrition-item">
+                        <div className="nutrition-icon fat">🧈</div>
+                        <span className="nutrition-value">
+                          {data.macros.fats} g F
+                        </span>
+                      </div>
+                    )}
+                    {data.macros.carbohydrates !== undefined && (
+                      <div className="nutrition-item">
+                        <div className="nutrition-icon carbs">🌾</div>
+                        <span className="nutrition-value">
+                          {data.macros.carbohydrates} g C
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Ingredientes */}
+              {data.ingredients && data.ingredients.length > 0 && (
+                <div className="ingredients-section">
+                  <h2 className="section-title">Ingredientes</h2>
+                  <div className="ingredients-card">
+                    {data.ingredients.map((ingredient, idx) => (
+                      <div className="ingredient-item" key={`${ingredient.name}-${idx}`}>
+                        <span className="ingredient-bullet">•</span>
+                        <span className="ingredient-text">
+                          {ingredient.amount ? `${ingredient.amount} ` : ''}
+                          {ingredient.unit ? `${ingredient.unit} ` : ''}
+                          {ingredient.name}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Preparación */}
+              {data.steps && data.steps.length > 0 && (
+                <div className="preparation-section">
+                  <h2 className="section-title">Preparación</h2>
+                  <div className="preparation-steps">
+                    {data.steps.map((step, idx) => (
+                      <div className="preparation-step" key={`${idx}-${step}`}>
+                        <span className="step-text">Paso {idx + 1}: {step}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Botón de acción */}
+              <div className="action-button-container">
+                <IonButton
+                  className="add-to-meal-button"
+                  fill="solid"
+                  onClick={handleAddToMeal}
+                >
+                  Añadir a mi comida de hoy
+                </IonButton>
               </div>
             </div>
-          </div>
-
-          {/* Botón de acción */}
-          <div className="action-button-container">
-            <IonButton
-              className="add-to-meal-button"
-              fill="solid"
-              onClick={handleAddToMeal}
-            >
-              Añadir a mi comida de hoy
-            </IonButton>
-          </div>
-        </div>
+          </>
+        )}
       </IonContent>
     </IonPage>
   );

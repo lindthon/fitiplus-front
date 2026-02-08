@@ -1,14 +1,46 @@
-import { IonButton, IonContent, IonPage } from '@ionic/react';
+import { IonButton, IonContent, IonPage, IonSpinner, IonText } from '@ionic/react';
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { ROUTES } from '../../config/routes';
 import { isFeatureEnabled } from '../../config/featureFlags';
 import { authService } from '../../services/AuthService';
+import {
+  MealType,
+  RandomRecipesResponse,
+  nutritionService,
+} from '../../services/NutritionService';
 import './Tab1.css';
+
+type MealCard = {
+  id: string;
+  name: string;
+  calories: number;
+  proteins?: number;
+  type: MealType;
+  imageSrc?: string | null;
+};
+
+const TYPE_LABEL: Record<MealType, string> = {
+  desayuno: 'Desayuno',
+  almuerzo: 'Almuerzo',
+  cena: 'Cena',
+  snacks: 'Snacks',
+};
+
+const TYPE_CLASS: Record<MealType, string> = {
+  desayuno: 'breakfast',
+  almuerzo: 'lunch',
+  cena: 'dinner',
+  snacks: 'snacks',
+};
 
 const Tab1: React.FC = () => {
   const currentUser = authService.getCurrentUser();
   const userName = currentUser?.firstName || currentUser?.name || 'Usuario';
   const history = useHistory();
+  const [mealOptions, setMealOptions] = useState<MealCard[]>([]);
+  const [isLoadingMeals, setIsLoadingMeals] = useState(false);
+  const [mealError, setMealError] = useState<string | null>(null);
 
   const handleViewRecipe = (recipeId: string) => {
     history.push(`/recipe/${recipeId}`);
@@ -17,6 +49,58 @@ const Tab1: React.FC = () => {
   const handleGenerateRecipe = () => {
     history.push(ROUTES.MEAL_REGISTRATION);
   };
+
+  const parseImage = (
+    image?: { type: string; data: number[] } | null,
+  ): string | null => {
+    if (!image?.data?.length) return null;
+    try {
+      const decoded = new TextDecoder().decode(new Uint8Array(image.data));
+      if (decoded.startsWith('data:image')) return decoded;
+      return `data:image/jpeg;base64,${decoded}`;
+    } catch (error) {
+      console.error('Error decodificando imagen de receta', error);
+      return null;
+    }
+  };
+
+  const loadMeals = async () => {
+    setIsLoadingMeals(true);
+    setMealError(null);
+    try {
+      const data: RandomRecipesResponse = await nutritionService.getRandomRecipes();
+      const mealTypes: MealType[] = ['desayuno', 'almuerzo', 'cena', 'snacks'];
+      const mapped: MealCard[] = [];
+
+      mealTypes.forEach((type) => {
+        const recipes = data?.[type];
+        if (recipes && recipes.length) {
+          recipes.forEach((recipe, index) => {
+            mapped.push({
+              id: recipe.id || `${type}-${index}-${recipe.name}`,
+              name: recipe.name,
+              calories: recipe.calories,
+              proteins: recipe.proteins,
+              type,
+              imageSrc: parseImage(recipe.image),
+            });
+          });
+        }
+      });
+
+      setMealOptions(mapped);
+    } catch (error) {
+      console.error('Error cargando recetas aleatorias', error);
+      setMealError('No pudimos cargar las opciones en este momento.');
+      setMealOptions([]);
+    } finally {
+      setIsLoadingMeals(false);
+    }
+  };
+
+  useEffect(() => {
+    loadMeals();
+  }, []);
 
   return (
     <IonPage>
@@ -89,64 +173,63 @@ const Tab1: React.FC = () => {
         {/* Opciones de comida */}
         <div className="meal-options">
           <h2 className="section-title">Opciones de comida de hoy</h2>
+          {isLoadingMeals && (
+            <div className="meal-status">
+              <IonSpinner name="crescent" />
+              <IonText color="medium">
+                <p>Cargando opciones...</p>
+              </IonText>
+            </div>
+          )}
+          {!isLoadingMeals && mealError && (
+            <div className="meal-status">
+              <IonText color="medium">
+                <p>{mealError}</p>
+              </IonText>
+            </div>
+          )}
+          {!isLoadingMeals && !mealError && mealOptions.length === 0 && (
+            <div className="meal-status">
+              <IonText color="medium">
+                <p>No hay opciones disponibles por ahora.</p>
+              </IonText>
+            </div>
+          )}
           <div className="meal-list">
-            <div
-              className="meal-item"
-              onClick={() => handleViewRecipe('desayuno')}
-            >
-              <div className="meal-image breakfast"></div>
-              <div className="meal-info">
-                <div className="meal-header">
-                  <h4 className="meal-title">Avena con frutas</h4>
-                  <span className="meal-category breakfast">Desayuno</span>
-                </div>
-                <div className="meal-calories-row">
-                  <span className="meal-calories">350 kcal · 10 g P</span>
-                </div>
-              </div>
-            </div>
-            <div
-              className="meal-item"
-              onClick={() => handleViewRecipe('almuerzo')}
-            >
-              <div className="meal-image lunch"></div>
-              <div className="meal-info">
-                <div className="meal-header">
-                  <h4 className="meal-title">Pollo a la plancha</h4>
-                  <span className="meal-category lunch">Almuerzo</span>
-                </div>
-                <div className="meal-calories-row">
-                  <span className="meal-calories">600 kcal · 40 g P</span>
-                </div>
-              </div>
-            </div>
-            <div className="meal-item" onClick={() => handleViewRecipe('cena')}>
-              <div className="meal-image dinner"></div>
-              <div className="meal-info">
-                <div className="meal-header">
-                  <h4 className="meal-title">Salmón con quinoa</h4>
-                  <span className="meal-category dinner">Cena</span>
-                </div>
-                <div className="meal-calories-row">
-                  <span className="meal-calories">500 kcal · 25 g P</span>
+            {mealOptions.map((meal) => (
+              <div
+                key={meal.id}
+                className="meal-item"
+                onClick={() => handleViewRecipe(meal.id)}
+              >
+                <div
+                  className={`meal-image ${TYPE_CLASS[meal.type]}`}
+                  style={{
+                    backgroundImage: meal.imageSrc
+                      ? `url(${meal.imageSrc})`
+                      : 'none',
+                    backgroundSize: meal.imageSrc ? 'cover' : undefined,
+                    backgroundPosition: meal.imageSrc ? 'center' : undefined,
+                  }}
+                ></div>
+                <div className="meal-info">
+                  <div className="meal-header">
+                    <h4 className="meal-title">{meal.name}</h4>
+                    <span className={`meal-category ${TYPE_CLASS[meal.type]}`}>
+                      {TYPE_LABEL[meal.type]}
+                    </span>
+                  </div>
+                  <div className="meal-calories-row">
+                    <span className="meal-calories">
+                      {meal.calories} kcal
+                      {meal.proteins !== undefined
+                        ? ` · ${meal.proteins} g P`
+                        : ''}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div
-              className="meal-item"
-              onClick={() => handleViewRecipe('snacks')}
-            >
-              <div className="meal-image snacks"></div>
-              <div className="meal-info">
-                <div className="meal-header">
-                  <h4 className="meal-title">Frutos secos</h4>
-                  <span className="meal-category snacks">Snacks</span>
-                </div>
-                <div className="meal-calories-row">
-                  <span className="meal-calories">150 kcal · 5 g P</span>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
 
