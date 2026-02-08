@@ -7,7 +7,7 @@ import './Tab1.css';
 
 const Tab1: React.FC = () => {
   const currentUser = authService.getCurrentUser();
-  const userName = currentUser?.name || 'Usuario';
+  const userName = currentUser?.firstName || currentUser?.name || 'Usuario';
   const history = useHistory();
 
   const handleViewRecipe = (recipeId: string) => {
