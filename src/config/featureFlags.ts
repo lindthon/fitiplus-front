@@ -2,7 +2,7 @@
 // Ajusta true/false según lo que quieras mostrar.
 export const featureFlags = {
   showAchievement: false,
-  showDailySummary: false,
+  showDailySummary: true,
   showNutritionalProgress: false,
   showTab2Medals: false,
   showTab3History: false,
