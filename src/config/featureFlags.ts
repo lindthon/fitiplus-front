@@ -2,15 +2,16 @@
 // Ajusta true/false según lo que quieras mostrar.
 export const featureFlags = {
   showAchievement: false,
-  showDailySummary: true,
+  showDailySummary: false,
   showNutritionalProgress: false,
   showTab2Medals: false,
   showTab3History: false,
   showTab4Profile: false,
   showAddToMealButton: false,
-  showMealImageUpload: false,
+  showMealImageUpload: true,
   showMealManualInput: false,
   showMealSubmitButton: true,
+  showGenerateRecipeCTA: true,
 };
 
 export const isFeatureEnabled = (flag: keyof typeof featureFlags) =>

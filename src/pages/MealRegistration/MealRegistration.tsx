@@ -4,6 +4,8 @@ import {
   IonIcon,
   IonInput,
   IonPage,
+  IonSelect,
+  IonSelectOption,
   IonTextarea,
 } from '@ionic/react';
 import { camera, close } from 'ionicons/icons';
@@ -19,6 +21,7 @@ const MealRegistration: React.FC = () => {
   const [mealInput, setMealInput] = useState('');
   const [ingredientsInput, setIngredientsInput] = useState('');
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
+  const [inputMode, setInputMode] = useState<'photo' | 'text'>('photo');
   const history = useHistory();
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,59 +41,85 @@ const MealRegistration: React.FC = () => {
       meal: mealInput,
       ingredients: ingredientsInput,
       images: uploadedImages,
+      mode: inputMode,
     });
 
-    // Preparar lista de ingredientes desde el textarea del usuario
-    const ingredientsList = (ingredientsInput || '')
-      .split(',')
-      .map((item) => item.trim())
-      .filter(Boolean);
+    const token =
+      (authService.getAuthToken && authService.getAuthToken()) ||
+      localStorage.getItem('fitiplus_token') ||
+      '';
 
     try {
-      const token =
-        (authService.getAuthToken && authService.getAuthToken()) ||
-        localStorage.getItem('fitiplus_token') ||
-        '';
-      if (ingredientsList.length) {
-        const response = await fetch(
-          getApiUrl(API_CONFIG.ENDPOINTS.RECIPE_GENERATION_ONLY_TEXT),
-          {
-            method: 'POST',
-            headers: token
-              ? {
-                  'Content-Type': 'application/json',
-                  Authorization: `Bearer ${token}`,
-                }
-              : {
-                  'Content-Type': 'application/json',
-                },
-            body: JSON.stringify({ ingredients: ingredientsList }),
-          },
-        );
+      let response: Response | null = null;
 
-        if (response.ok) {
-          const data = await response.json();
-          const recipeId =
-            data?.recipeId || data?.matchedRecipe?.id || data?.id || null;
-          // Guardar info para la siguiente vista
-          localStorage.setItem(
-            'generated_recipe_info',
-            JSON.stringify({
-              ...data,
-              ingredients: ingredientsList,
-              recipeId,
-            }),
+      if (inputMode === 'text') {
+        // Preparar lista de ingredientes desde el textarea del usuario
+        const ingredientsList = (ingredientsInput || '')
+          .split(',')
+          .map((item) => item.trim())
+          .filter(Boolean);
+
+        if (ingredientsList.length) {
+          response = await fetch(
+            getApiUrl(API_CONFIG.ENDPOINTS.RECIPE_GENERATION_ONLY_TEXT),
+            {
+              method: 'POST',
+              headers: token
+                ? {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                  }
+                : {
+                    'Content-Type': 'application/json',
+                  },
+              body: JSON.stringify({ ingredients: ingredientsList }),
+            },
           );
-        } else {
-          console.error(
-            'Error en recipe-generation/only-text',
-            response.status,
-            await response.text().catch(() => ''),
+        }
+      } else {
+        // inputMode === 'photo'
+        if (uploadedImages.length > 0) {
+          const formData = new FormData();
+          uploadedImages.forEach((file) => {
+            formData.append('files', file);
+          });
+
+          response = await fetch(
+            getApiUrl(API_CONFIG.ENDPOINTS.RECIPE_GENERATION_ONLY_IMAGES),
+            {
+              method: 'POST',
+              headers: token
+                ? {
+                    Authorization: `Bearer ${token}`,
+                  }
+                : undefined,
+              body: formData,
+            },
           );
         }
       }
+
+      if (response && response.ok) {
+        const data = await response.json();
+        const recipeId = data?.recipeId || data?.matchedRecipe?.id || data?.id || null;
+        // Guardar info para la siguiente vista
+        localStorage.setItem(
+          'generated_recipe_info',
+          JSON.stringify({
+            ...data,
+            ingredients: inputMode === 'text' ? ingredientsInput : undefined,
+            recipeId,
+          }),
+        );
+      } else if (response) {
+        console.error(
+          'Error en generación de receta',
+          response.status,
+          await response.text().catch(() => ''),
+        );
+      }
     } catch (error) {
-      console.error('Error llamando a recipe-generation/only-text', error);
+      console.error('Error llamando a generación de receta', error);
     }
 
     // Redirigir a la pantalla de generación de receta
@@ -102,11 +131,25 @@ const MealRegistration: React.FC = () => {
       <IonContent fullscreen className="ion-padding meal-registration-content">
         {/* Header */}
         <div className="registration-header">
-          <h1 className="registration-title">Registra tu comida</h1>
+          <h1 className="registration-title">Generar nueva receta</h1>
         </div>
 
         {/* Image Upload Section */}
-        {isFeatureEnabled('showMealImageUpload') && (
+        {/* Selector de modo */}
+        <div className="manual-input-section">
+          <h2 className="section-title">¿Cómo deseas subir los ingredientes?</h2>
+          <IonSelect
+            value={inputMode}
+            onIonChange={(e) => setInputMode(e.detail.value as 'photo' | 'text')}
+            interface="popover"
+            className="mode-select"
+          >
+            <IonSelectOption value="photo">Subir fotos</IonSelectOption>
+            <IonSelectOption value="text">Escribirlos</IonSelectOption>
+          </IonSelect>
+        </div>
+
+        {isFeatureEnabled('showMealImageUpload') && inputMode === 'photo' && (
           <div className="image-upload-section">
             <div className="upload-card">
               <div className="upload-icon">
@@ -183,30 +226,34 @@ const MealRegistration: React.FC = () => {
         )}
 
         {/* Ingredients Input Section */}
-        <div className="ingredients-section">
-          <h2 className="section-title">Ingredientes (separados por coma)</h2>
-          <IonTextarea
-            className="ingredients-textarea"
-            placeholder="Ej: Lechuga, papa, pollo, tomate, etc"
-            value={ingredientsInput}
-            onIonInput={(e) => setIngredientsInput(e.detail.value!)}
-            rows={4}
-          />
-        </div>
-
-        {/* Register Button */}
-        {isFeatureEnabled('showMealSubmitButton') && (
-          <div className="register-button-container">
-            <IonButton
-              className="register-button"
-              fill="solid"
-              onClick={handleRegister}
-              disabled={!mealInput.trim() && !ingredientsInput.trim()}
-            >
-              Generar receta
-            </IonButton>
+        {inputMode === 'text' && (
+          <div className="ingredients-section">
+            <h2 className="section-title">Ingredientes (separados por coma)</h2>
+            <IonTextarea
+              className="ingredients-textarea"
+              placeholder="Ej: Lechuga, papa, pollo, tomate, etc"
+              value={ingredientsInput}
+              onIonInput={(e) => setIngredientsInput(e.detail.value!)}
+              rows={4}
+            />
           </div>
         )}
+
+        {/* Register Button */}
+        <div className="register-button-container">
+          <IonButton
+            className="register-button"
+            fill="solid"
+            onClick={handleRegister}
+            disabled={
+              inputMode === 'text'
+                ? !ingredientsInput.trim()
+                : uploadedImages.length === 0
+            }
+          >
+            Generar receta
+          </IonButton>
+        </div>
       </IonContent>
     </IonPage>
   );

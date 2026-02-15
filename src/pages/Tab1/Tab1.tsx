@@ -160,12 +160,17 @@ const Tab1: React.FC = () => {
                 </div>
               </div>
             </div>
+          </div>
+        )}
+
+        {isFeatureEnabled('showGenerateRecipeCTA') && (
+          <div className="daily-summary-card">
             <IonButton
               className="recipe-button"
               fill="solid"
               onClick={handleGenerateRecipe}
             >
-              Generar tu receta con una foto
+              Generar nueva receta
             </IonButton>
           </div>
         )}

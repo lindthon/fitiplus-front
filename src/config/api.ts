@@ -35,6 +35,7 @@ export const API_CONFIG = {
     NUTRITION_RANDOM: '/nutrition/recipes/random',
     CLIENT_RECIPE_DETAIL: '/clients/recipes/detail',
     RECIPE_GENERATION_ONLY_TEXT: '/clients/recipe-generation/only-text',
+    RECIPE_GENERATION_ONLY_IMAGES: '/clients/recipe-generation/only-images',
   },
 } as const;
 
