@@ -9,7 +9,10 @@ import {
 import { camera, close } from 'ionicons/icons';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { API_CONFIG, getApiUrl } from '../../config/api';
+import { isFeatureEnabled } from '../../config/featureFlags';
 import { ROUTES } from '../../config/routes';
+import { authService } from '../../services/AuthService';
 import './MealRegistration.css';
 
 const MealRegistration: React.FC = () => {
@@ -29,13 +32,66 @@ const MealRegistration: React.FC = () => {
     setUploadedImages((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     // Lógica para registrar la comida
     console.log('Registrando comida:', {
       meal: mealInput,
       ingredients: ingredientsInput,
       images: uploadedImages,
     });
+
+    // Preparar lista de ingredientes desde el textarea del usuario
+    const ingredientsList = (ingredientsInput || '')
+      .split(',')
+      .map((item) => item.trim())
+      .filter(Boolean);
+
+    try {
+      const token =
+        (authService.getAuthToken && authService.getAuthToken()) ||
+        localStorage.getItem('fitiplus_token') ||
+        '';
+      if (ingredientsList.length) {
+        const response = await fetch(
+          getApiUrl(API_CONFIG.ENDPOINTS.RECIPE_GENERATION_ONLY_TEXT),
+          {
+            method: 'POST',
+            headers: token
+              ? {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${token}`,
+                }
+              : {
+                  'Content-Type': 'application/json',
+                },
+            body: JSON.stringify({ ingredients: ingredientsList }),
+          },
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          const recipeId =
+            data?.recipeId || data?.matchedRecipe?.id || data?.id || null;
+          // Guardar info para la siguiente vista
+          localStorage.setItem(
+            'generated_recipe_info',
+            JSON.stringify({
+              ...data,
+              ingredients: ingredientsList,
+              recipeId,
+            }),
+          );
+        } else {
+          console.error(
+            'Error en recipe-generation/only-text',
+            response.status,
+            await response.text().catch(() => ''),
+          );
+        }
+      }
+    } catch (error) {
+      console.error('Error llamando a recipe-generation/only-text', error);
+    }
 
     // Redirigir a la pantalla de generación de receta
     history.push(ROUTES.RECIPE_GENERATION);
@@ -50,33 +106,35 @@ const MealRegistration: React.FC = () => {
         </div>
 
         {/* Image Upload Section */}
-        <div className="image-upload-section">
-          <div className="upload-card">
-            <div className="upload-icon">
-              <IonIcon
-                icon={camera}
-                style={{
-                  fontSize: '80px',
-                  width: '80px',
-                  height: '80px',
-                  '--size': '80px',
-                }}
+        {isFeatureEnabled('showMealImageUpload') && (
+          <div className="image-upload-section">
+            <div className="upload-card">
+              <div className="upload-icon">
+                <IonIcon
+                  icon={camera}
+                  style={{
+                    fontSize: '80px',
+                    width: '80px',
+                    height: '80px',
+                    '--size': '80px',
+                  }}
+                />
+              </div>
+              <p className="upload-text">Toma foto de lo que vas a comer</p>
+              <p className="upload-formats">Formatos: PNG, JPEG</p>
+              <input
+                type="file"
+                accept="image/png,image/jpeg"
+                onChange={handleImageUpload}
+                className="file-input"
+                id="image-upload"
               />
+              <label htmlFor="image-upload" className="upload-button">
+                Agregar imagen
+              </label>
             </div>
-            <p className="upload-text">Toma foto de lo que vas a comer</p>
-            <p className="upload-formats">Formatos: PNG, JPEG</p>
-            <input
-              type="file"
-              accept="image/png,image/jpeg"
-              onChange={handleImageUpload}
-              className="file-input"
-              id="image-upload"
-            />
-            <label htmlFor="image-upload" className="upload-button">
-              Agregar imagen
-            </label>
           </div>
-        </div>
+        )}
 
         {/* Lista de imágenes subidas */}
         {uploadedImages.length > 0 && (
@@ -112,15 +170,17 @@ const MealRegistration: React.FC = () => {
         )}
 
         {/* Manual Meal Input Section */}
-        <div className="manual-input-section">
-          <h2 className="section-title">Ya comiste?, no hay problema</h2>
-          <IonInput
-            className="meal-input"
-            placeholder="Escribe la comida que acabas de comer"
-            value={mealInput}
-            onIonInput={(e) => setMealInput(e.detail.value!)}
-          />
-        </div>
+        {isFeatureEnabled('showMealManualInput') && (
+          <div className="manual-input-section">
+            <h2 className="section-title">Ya comiste?, no hay problema</h2>
+            <IonInput
+              className="meal-input"
+              placeholder="Escribe la comida que acabas de comer"
+              value={mealInput}
+              onIonInput={(e) => setMealInput(e.detail.value!)}
+            />
+          </div>
+        )}
 
         {/* Ingredients Input Section */}
         <div className="ingredients-section">
@@ -135,16 +195,18 @@ const MealRegistration: React.FC = () => {
         </div>
 
         {/* Register Button */}
-        <div className="register-button-container">
-          <IonButton
-            className="register-button"
-            fill="solid"
-            onClick={handleRegister}
-            disabled={!mealInput.trim() && !ingredientsInput.trim()}
-          >
-            Registrar
-          </IonButton>
-        </div>
+        {isFeatureEnabled('showMealSubmitButton') && (
+          <div className="register-button-container">
+            <IonButton
+              className="register-button"
+              fill="solid"
+              onClick={handleRegister}
+              disabled={!mealInput.trim() && !ingredientsInput.trim()}
+            >
+              Generar receta
+            </IonButton>
+          </div>
+        )}
       </IonContent>
     </IonPage>
   );

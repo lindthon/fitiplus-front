@@ -1,5 +1,5 @@
 import { IonContent, IonPage, IonSpinner } from '@ionic/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import './RecipeGeneration.css';
 
@@ -15,14 +15,37 @@ const RecipeGeneration: React.FC = () => {
     '¡Receta lista!',
   ];
 
+  const targetRecipeId = useMemo(() => {
+    try {
+      const stored = localStorage.getItem('generated_recipe_info');
+      if (!stored) return null;
+      const parsed = JSON.parse(stored);
+      return parsed?.recipeId || parsed?.matchedRecipe?.id || null;
+    } catch {
+      return null;
+    }
+  }, []);
+
   useEffect(() => {
+    const fallbackTimeout = setTimeout(() => {
+      if (targetRecipeId) {
+        history.push(`/recipe/${targetRecipeId}`);
+      } else {
+        history.push('/recipe/generated-recipe');
+      }
+    }, steps.length * 2000 + 2000);
+
     const stepInterval = setInterval(() => {
       setCurrentStep((prev) => {
         if (prev >= steps.length - 1) {
           clearInterval(stepInterval);
           // Redirigir a RecipeDetail después de completar
           setTimeout(() => {
-            history.push('/recipe/generated-recipe');
+            if (targetRecipeId) {
+              history.push(`/recipe/${targetRecipeId}`);
+            } else {
+              history.push('/recipe/generated-recipe');
+            }
           }, 2000);
           return prev;
         }
@@ -32,8 +55,9 @@ const RecipeGeneration: React.FC = () => {
 
     return () => {
       clearInterval(stepInterval);
+      clearTimeout(fallbackTimeout);
     };
-  }, [history, steps.length]);
+  }, [history, steps.length, targetRecipeId]);
 
   return (
     <IonPage>

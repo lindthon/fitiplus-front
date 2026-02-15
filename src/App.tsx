@@ -13,6 +13,7 @@ import { home, person, time, trophy } from 'ionicons/icons';
 import { Redirect, Route } from 'react-router-dom';
 import SimpleAuthCheck from './components/SimpleAuthCheck';
 import { ROUTES } from './config/routes';
+import { authService } from './services/AuthService';
 import { isFeatureEnabled } from './config/featureFlags';
 import IngredientSelection from './pages/IngredientSelection';
 import Login from './pages/Login';
@@ -149,7 +150,11 @@ const App: React.FC = () => (
           </SimpleAuthCheck>
         </Route>
         <Route exact path={ROUTES.ROOT}>
-          <Redirect to={ROUTES.LOGIN} />
+          {authService.isAuthenticated() ? (
+            <Redirect to={ROUTES.TAB1} />
+          ) : (
+            <Redirect to={ROUTES.LOGIN} />
+          )}
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>

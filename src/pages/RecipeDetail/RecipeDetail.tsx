@@ -14,6 +14,19 @@ const RecipeDetail: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [imageFailed, setImageFailed] = useState(false);
 
+  // Fallback: si venimos del flujo de generación, intentar recipeId guardado
+  const effectiveId = useMemo(() => {
+    if (id && id !== 'generated-recipe') return id;
+    try {
+      const stored = localStorage.getItem('generated_recipe_info');
+      if (!stored) return id;
+      const parsed = JSON.parse(stored);
+      return parsed?.recipeId || parsed?.matchedRecipe?.id || id;
+    } catch {
+      return id;
+    }
+  }, [id]);
+
   const imageSrc = useMemo(() => {
     const url = data?.imageUrl;
     if (!url) return null;
@@ -42,17 +55,23 @@ const RecipeDetail: React.FC = () => {
       setIsLoading(true);
       setError(null);
       try {
-        const detail = await nutritionService.getRecipeDetail(id);
+        const detail = await nutritionService.getRecipeDetail(effectiveId);
         setData(detail);
       } catch (err) {
         console.error('Error obteniendo detalle de receta', err);
         setError('No pudimos cargar la receta.');
       } finally {
         setIsLoading(false);
+        // Limpiar storage para no reusar recetas antiguas
+        try {
+          localStorage.removeItem('generated_recipe_info');
+        } catch {
+          /* ignore */
+        }
       }
     };
     load();
-  }, [id]);
+  }, [effectiveId]);
 
   return (
     <IonPage>

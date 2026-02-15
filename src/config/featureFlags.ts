@@ -8,6 +8,9 @@ export const featureFlags = {
   showTab3History: false,
   showTab4Profile: false,
   showAddToMealButton: false,
+  showMealImageUpload: false,
+  showMealManualInput: false,
+  showMealSubmitButton: true,
 };
 
 export const isFeatureEnabled = (flag: keyof typeof featureFlags) =>

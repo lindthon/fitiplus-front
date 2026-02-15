@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { ROUTES } from '../config/routes';
+import { authService } from '../services/AuthService';
 
 interface SimpleAuthCheckProps {
   children: React.ReactNode;
@@ -8,23 +9,14 @@ interface SimpleAuthCheckProps {
 
 const SimpleAuthCheck: React.FC<SimpleAuthCheckProps> = ({ children }) => {
   useEffect(() => {
-    // Solo verificar localStorage una vez al cargar
-    const userData = localStorage.getItem('fitiplus_user');
-    const token = localStorage.getItem('fitiplus_token');
-
-    // Si no hay datos, limpiar cualquier dato corrupto
-    if (!userData || !token) {
-      localStorage.removeItem('fitiplus_user');
-      localStorage.removeItem('fitiplus_token');
-    }
+    // No limpiar storage aquí; solo asegurarse de que authService se inicialice.
+    // authService ya carga desde storage en su constructor.
   }, []);
 
-  // Verificar si hay datos de autenticación
-  const userData = localStorage.getItem('fitiplus_user');
-  const token = localStorage.getItem('fitiplus_token');
+  // Verificar si hay datos de autenticación vía authService (ya rehidratado)
+  const isAuthenticated = authService.isAuthenticated();
 
-  // Si no hay datos, redirigir a login
-  if (!userData || !token) {
+  if (!isAuthenticated) {
     return <Redirect to={ROUTES.LOGIN} />;
   }
 
