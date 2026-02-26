@@ -3,6 +3,16 @@
   --background: #f8fafc;
 }
 
+.profile-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
 /* Header del perfil */
 .profile-content .profile-header {
   display: flex;
@@ -19,14 +29,15 @@
 }
 
 .profile-content .profile-avatar {
-  width: 80px;
-  height: 80px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  box-shadow: 0 10px 28px rgba(124, 58, 237, 0.28);
 }
 
 .profile-content .avatar-icon {
@@ -101,7 +112,7 @@
 
 .profile-content .info-icon {
   font-size: 24px;
-  color: #667eea;
+  color: #7c3aed;
   flex-shrink: 0;
 }
 
@@ -272,25 +283,49 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin-bottom: 32px;
-  animation: fadeInUp 0.6s ease-out 0.8s both;
+  margin: 0;
 }
 
 .profile-content .action-button {
-  --border-radius: 12px;
+  --border-radius: 14px;
   --padding-top: 16px;
   --padding-bottom: 16px;
-  font-weight: 500;
+  --background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  --color: white;
+  --box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+  font-weight: 600;
   text-transform: none;
 }
 
 .profile-content .action-button.logout {
-  --color: #ef4444;
-  --border-color: #ef4444;
+  --background: linear-gradient(135deg, #ef4444, #dc2626);
+  --box-shadow: 0 8px 24px rgba(239, 68, 68, 0.25);
 }
 
-.profile-content .action-button.logout:hover {
-  --background: rgba(239, 68, 68, 0.1);
+.profile-content .action-button:hover {
+  transform: translateY(-2px);
+}
+
+.profile-content .action-button:active {
+  transform: translateY(0);
+}
+
+.modal-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.profile-content .status-message {
+  margin-top: 0;
 }
 
 /* Animaciones */

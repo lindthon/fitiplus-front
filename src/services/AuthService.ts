@@ -12,6 +12,10 @@ export interface User {
   phone?: string;
   dateOfBirth?: string;
   gender?: string;
+  status?: string;
+  organizations?: any[];
+  activeOrganizationId?: string;
+  activeMembership?: any;
   preferences?: UserPreferences;
 }
 
@@ -517,12 +521,25 @@ class AuthService {
       );
 
       if (response.success && response.data) {
-        this.currentUser = response.data.user;
+        const apiUser = response.data.user || response.data;
+        const normalized: User = {
+          ...this.currentUser,
+          ...apiUser,
+          firstName:
+            apiUser?.firstName ||
+            apiUser?.name?.split(' ')?.[0] ||
+            this.currentUser?.firstName,
+          lastName:
+            apiUser?.lastName ||
+            apiUser?.name?.split(' ')?.slice(1).join(' ') ||
+            this.currentUser?.lastName,
+        };
+        this.currentUser = normalized;
         this.saveToStorage();
 
         return {
           success: true,
-          user: response.data.user,
+          user: this.currentUser,
           message: 'Perfil actualizado',
         };
       } else {

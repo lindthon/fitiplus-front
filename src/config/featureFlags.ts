@@ -6,7 +6,7 @@ export const featureFlags = {
   showNutritionalProgress: false,
   showTab2Medals: false,
   showTab3History: false,
-  showTab4Profile: false,
+  showTab4Profile: true,
   showAddToMealButton: false,
   showMealImageUpload: true,
   showMealManualInput: false,
