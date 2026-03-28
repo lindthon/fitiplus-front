@@ -37,6 +37,30 @@ export interface RecipeDetailData {
   prepTimeMinutes?: number;
 }
 
+export interface SavedRecipeItem {
+  id: string;
+  name: string;
+  description?: string;
+  totalCalories?: number;
+  imageUrl?: string | null;
+  mealTypeName?: string;
+  prepTimeMinutes?: number;
+  servings?: number;
+  savedAt: string;
+}
+
+export interface RecipeHistoryItem {
+  foodLogId: string;
+  recipeId: string;
+  recipeName: string;
+  totalCalories?: number;
+  imageUrl?: string | null;
+  mealTypeName?: string;
+  source?: string;
+  detectedIngredients?: string[];
+  generatedAt: string;
+}
+
 class NutritionService {
   /**
    * Obtiene recetas aleatorias para cada tipo de comida.
@@ -108,6 +132,74 @@ class NutritionService {
     } finally {
       window.clearTimeout(timeoutId);
     }
+  }
+  private getAuthHeaders(): Record<string, string> {
+    const token = localStorage.getItem('fitiplus_token') || '';
+    return {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    };
+  }
+
+  /**
+   * Guarda una receta en favoritos.
+   * Retorna true si se guardó, false si ya estaba guardada (409).
+   */
+  public async saveRecipe(recipeId: string): Promise<boolean> {
+    const url = `${getApiUrl(API_CONFIG.ENDPOINTS.CLIENT_RECIPE_SAVE)}/${recipeId}/save`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: this.getAuthHeaders(),
+    });
+
+    if (response.status === 409) return false;
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return true;
+  }
+
+  /**
+   * Quita una receta de favoritos.
+   */
+  public async unsaveRecipe(recipeId: string): Promise<void> {
+    const url = `${getApiUrl(API_CONFIG.ENDPOINTS.CLIENT_RECIPE_SAVE)}/${recipeId}/save`;
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: this.getAuthHeaders(),
+    });
+
+    if (!response.ok && response.status !== 404) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+  }
+
+  /**
+   * Obtiene las recetas guardadas (favoritos) del usuario.
+   */
+  public async getSavedRecipes(): Promise<SavedRecipeItem[]> {
+    const response = await fetch(
+      getApiUrl(API_CONFIG.ENDPOINTS.CLIENT_RECIPES_SAVED),
+      {
+        method: 'GET',
+        headers: this.getAuthHeaders(),
+      },
+    );
+
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return (await response.json()) as SavedRecipeItem[];
+  }
+
+  /**
+   * Obtiene el historial de recetas generadas por el usuario.
+   */
+  public async getRecipeHistory(limit = 20): Promise<RecipeHistoryItem[]> {
+    const url = `${getApiUrl(API_CONFIG.ENDPOINTS.CLIENT_RECIPES_HISTORY)}?limit=${limit}`;
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: this.getAuthHeaders(),
+    });
+
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return (await response.json()) as RecipeHistoryItem[];
   }
 }
 

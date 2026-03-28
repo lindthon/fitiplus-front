@@ -31,7 +31,8 @@ import { authService } from '../../services/AuthService';
 import './Register.css';
 
 interface RegisterFormData {
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -40,7 +41,8 @@ interface RegisterFormData {
 const Register: FC = () => {
   const history = useHistory();
   const [formData, setFormData] = useState<RegisterFormData>({
-    name: '',
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -68,8 +70,14 @@ const Register: FC = () => {
   };
 
   const validateForm = (): boolean => {
-    if (!formData.name.trim()) {
-      setAlertMessage('Por favor ingresa tu nombre completo');
+    if (!formData.firstName.trim()) {
+      setAlertMessage('Por favor ingresa tu nombre');
+      setShowAlert(true);
+      return false;
+    }
+
+    if (!formData.lastName.trim()) {
+      setAlertMessage('Por favor ingresa tu apellido');
       setShowAlert(true);
       return false;
     }
@@ -123,21 +131,23 @@ const Register: FC = () => {
     try {
       console.log('📝 [REGISTER] Iniciando registro desde componente', {
         email: formData.email,
-        name: formData.name,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
         timestamp: new Date().toISOString(),
       });
 
       const result = await authService.register({
+        first_name: formData.firstName,
+        last_name: formData.lastName,
         email: formData.email,
         password: formData.password,
-        name: formData.name,
       });
 
       if (result.success) {
         console.log('✅ [REGISTER] Registro exitoso desde componente', {
           userId: result.user?.id,
           userEmail: result.user?.email,
-          userName: result.user?.name,
+          userName: result.user?.firstName,
         });
 
         setAlertMessage('¡Cuenta creada exitosamente! Bienvenido a FitiPlus.');
@@ -218,12 +228,24 @@ const Register: FC = () => {
               >
                 <IonItem className="register-input-item">
                   <IonIcon icon={personOutline} slot="start" />
-                  <IonLabel position="stacked">Nombre Completo</IonLabel>
+                  <IonLabel position="stacked">Nombre</IonLabel>
                   <IonInput
                     type="text"
-                    value={formData.name}
-                    onIonInput={handleInputChange('name')}
-                    placeholder="Tu nombre completo"
+                    value={formData.firstName}
+                    onIonInput={handleInputChange('firstName')}
+                    placeholder="Tu nombre"
+                    required
+                  />
+                </IonItem>
+
+                <IonItem className="register-input-item">
+                  <IonIcon icon={personOutline} slot="start" />
+                  <IonLabel position="stacked">Apellido</IonLabel>
+                  <IonInput
+                    type="text"
+                    value={formData.lastName}
+                    onIonInput={handleInputChange('lastName')}
+                    placeholder="Tu apellido"
                     required
                   />
                 </IonItem>

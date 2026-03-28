@@ -23,7 +23,7 @@ export const API_CONFIG = {
     CHANGE_PASSWORD: '/auth/change-password',
     RESET_PASSWORD: '/auth/reset-password',
     PROFILE: '/user/profile',
-    REGISTER: '/auth/register-client',
+    REGISTER: '/auth/register',
     WELCOME_CARDS: '/welcome/cards',
     ONBOARDING_STAGES: '/onboarding/stages',
     ONBOARDING_GOALS: '/onboarding/goals',
@@ -36,6 +36,9 @@ export const API_CONFIG = {
     CLIENT_RECIPE_DETAIL: '/clients/recipes/detail',
     RECIPE_GENERATION_ONLY_TEXT: '/clients/recipe-generation/only-text',
     RECIPE_GENERATION_ONLY_IMAGES: '/clients/recipe-generation/only-images',
+    CLIENT_RECIPE_SAVE: '/clients/recipes',
+    CLIENT_RECIPES_SAVED: '/clients/recipes/saved',
+    CLIENT_RECIPES_HISTORY: '/clients/recipes/history',
   },
 } as const;
 

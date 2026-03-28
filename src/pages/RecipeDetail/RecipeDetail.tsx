@@ -1,5 +1,5 @@
-import { IonButton, IonContent, IonIcon, IonPage, IonSpinner } from '@ionic/react';
-import { arrowBack } from 'ionicons/icons';
+import { IonButton, IonContent, IonIcon, IonPage, IonSpinner, IonToast } from '@ionic/react';
+import { arrowBack, heart, heartOutline } from 'ionicons/icons';
 import { useEffect, useMemo, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { isFeatureEnabled } from '../../config/featureFlags';
@@ -13,6 +13,9 @@ const RecipeDetail: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [imageFailed, setImageFailed] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   // Fallback: si venimos del flujo de generación, intentar recipeId guardado
   const effectiveId = useMemo(() => {
@@ -50,19 +53,42 @@ const RecipeDetail: React.FC = () => {
     history.goBack();
   };
 
+  const handleToggleSave = async () => {
+    if (isSaving || !effectiveId) return;
+    setIsSaving(true);
+    try {
+      if (isSaved) {
+        await nutritionService.unsaveRecipe(effectiveId);
+        setIsSaved(false);
+        setToastMessage('Receta removida de guardados');
+      } else {
+        const wasNew = await nutritionService.saveRecipe(effectiveId);
+        setIsSaved(true);
+        setToastMessage(wasNew ? 'Receta guardada' : 'La receta ya estaba guardada');
+      }
+    } catch {
+      setToastMessage('Error al actualizar favoritos');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   useEffect(() => {
     const load = async () => {
       setIsLoading(true);
       setError(null);
       try {
-        const detail = await nutritionService.getRecipeDetail(effectiveId);
+        const [detail, savedList] = await Promise.all([
+          nutritionService.getRecipeDetail(effectiveId),
+          nutritionService.getSavedRecipes().catch(() => [] as any[]),
+        ]);
         setData(detail);
+        setIsSaved(savedList.some((r: any) => r.id === effectiveId));
       } catch (err) {
         console.error('Error obteniendo detalle de receta', err);
         setError('No pudimos cargar la receta.');
       } finally {
         setIsLoading(false);
-        // Limpiar storage para no reusar recetas antiguas
         try {
           localStorage.removeItem('generated_recipe_info');
         } catch {
@@ -83,6 +109,29 @@ const RecipeDetail: React.FC = () => {
         >
           <IonIcon icon={arrowBack} />
         </IonButton>
+
+        {!isLoading && !error && data && (
+          <IonButton
+            fill="clear"
+            onClick={handleToggleSave}
+            className="floating-save-button"
+            disabled={isSaving}
+          >
+            {isSaving ? (
+              <IonSpinner name="crescent" />
+            ) : (
+              <IonIcon icon={isSaved ? heart : heartOutline} />
+            )}
+          </IonButton>
+        )}
+
+        <IonToast
+          isOpen={!!toastMessage}
+          onDidDismiss={() => setToastMessage(null)}
+          message={toastMessage || ''}
+          duration={2000}
+          position="bottom"
+        />
 
         {isLoading && (
           <div className="recipe-loading">

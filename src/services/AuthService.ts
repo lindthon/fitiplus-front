@@ -32,12 +32,10 @@ export interface LoginCredentials {
 }
 
 export interface RegisterCredentials {
+  first_name: string;
+  last_name: string;
   email: string;
   password: string;
-  name: string;
-  phone?: string;
-  dateOfBirth?: string;
-  gender?: string;
 }
 
 export interface AuthResponse {
@@ -202,10 +200,8 @@ class AuthService {
     console.log(`📝 [REGISTER] Iniciando proceso de registro`, {
       requestId,
       email: credentials.email,
-      name: credentials.name,
-      hasPhone: !!credentials.phone,
-      hasDateOfBirth: !!credentials.dateOfBirth,
-      hasGender: !!credentials.gender,
+      first_name: credentials.first_name,
+      last_name: credentials.last_name,
       timestamp: new Date().toISOString(),
       isOnline: this.isOnline,
       apiUrl: API_CONFIG.BASE_URL,
@@ -240,35 +236,44 @@ class AuthService {
       const duration = Date.now() - startTime;
 
       if (response.success && response.data) {
-        const { user, accessToken, refreshToken } = response.data;
+        const { user: apiUser, access_token } = response.data;
+
+        const user: User = {
+          id: apiUser.id,
+          email: apiUser.email,
+          firstName: apiUser.first_name,
+          lastName: apiUser.last_name,
+          name: `${apiUser.first_name} ${apiUser.last_name}`,
+          role: apiUser.roles?.[0],
+        };
+
+        const accessToken = access_token;
 
         console.log(`✅ [REGISTER] Registro exitoso`, {
           requestId,
-          userId: user?.id,
-          userEmail: user?.email,
-          userName: user?.firstName || user?.name,
+          userId: user.id,
+          userEmail: user.email,
+          userName: user.firstName,
           tokenLength: accessToken?.length,
-          refreshTokenLength: refreshToken?.length,
           duration: `${duration}ms`,
         });
 
         this.currentUser = user;
         this.authToken = accessToken || '';
-        this.refreshToken = refreshToken;
+        this.refreshToken = null;
 
         this.saveToStorage();
 
         console.log(`💾 [REGISTER] Datos guardados en localStorage`, {
           requestId,
-          userId: user?.id,
+          userId: user.id,
         });
 
         return {
           success: true,
           user,
           accessToken,
-          token: accessToken, // Mantener para compatibilidad
-          refreshToken,
+          token: accessToken,
           message: 'Registro exitoso',
           isOnboardingCompleted: false,
         };

@@ -23,7 +23,9 @@ import Presentation from './pages/Presentation';
 import Profile from './pages/Profile';
 import RecipeDetail from './pages/RecipeDetail';
 import RecipeGeneration from './pages/RecipeGeneration';
+import RecipeHistory from './pages/RecipeHistory';
 import Register from './pages/Register';
+import SavedRecipes from './pages/SavedRecipes';
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
@@ -94,6 +96,16 @@ const App: React.FC = () => (
         <Route exact path={ROUTES.RECIPE_GENERATION}>
           <SimpleAuthCheck>
             <RecipeGeneration />
+          </SimpleAuthCheck>
+        </Route>
+        <Route exact path={ROUTES.SAVED_RECIPES}>
+          <SimpleAuthCheck>
+            <SavedRecipes />
+          </SimpleAuthCheck>
+        </Route>
+        <Route exact path={ROUTES.RECIPE_HISTORY}>
+          <SimpleAuthCheck>
+            <RecipeHistory />
           </SimpleAuthCheck>
         </Route>
         <Route exact path={ROUTES.PROFILE}>

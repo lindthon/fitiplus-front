@@ -1,4 +1,5 @@
-import { IonButton, IonContent, IonPage, IonSpinner, IonText } from '@ionic/react';
+import { IonButton, IonContent, IonIcon, IonPage, IonSpinner, IonText } from '@ionic/react';
+import { bookmark, timeOutline } from 'ionicons/icons';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { ROUTES } from '../../config/routes';
@@ -174,6 +175,23 @@ const Tab1: React.FC = () => {
             </IonButton>
           </div>
         )}
+
+        <div className="quick-actions">
+          <div
+            className="quick-action-card"
+            onClick={() => history.push(ROUTES.SAVED_RECIPES)}
+          >
+            <IonIcon icon={bookmark} className="quick-action-icon saved" />
+            <span className="quick-action-label">Recetas guardadas</span>
+          </div>
+          <div
+            className="quick-action-card"
+            onClick={() => history.push(ROUTES.RECIPE_HISTORY)}
+          >
+            <IonIcon icon={timeOutline} className="quick-action-icon history" />
+            <span className="quick-action-label">Historial generadas</span>
+          </div>
+        </div>
 
         {/* Opciones de comida */}
         <div className="meal-options">

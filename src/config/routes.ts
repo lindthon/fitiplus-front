@@ -17,6 +17,8 @@ export const ROUTES = {
   INGREDIENT_SELECTION: '/ingredient-selection',
   MEAL_REGISTRATION: '/meal-registration',
   RECIPE_GENERATION: '/recipe-generation',
+  SAVED_RECIPES: '/saved-recipes',
+  RECIPE_HISTORY: '/recipe-history',
   PROFILE: '/profile',
 } as const;
 
@@ -31,6 +33,8 @@ export const PROTECTED_ROUTES = [
   ROUTES.INGREDIENT_SELECTION,
   ROUTES.MEAL_REGISTRATION,
   ROUTES.RECIPE_GENERATION,
+  ROUTES.SAVED_RECIPES,
+  ROUTES.RECIPE_HISTORY,
   ROUTES.PROFILE,
 ] as const;
 

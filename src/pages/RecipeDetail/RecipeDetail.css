@@ -48,6 +48,56 @@
   margin: 0 !important;
   padding: 0 !important;
 }
+
+/* Botón flotante de guardar */
+.floating-save-button {
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 20px !important;
+  z-index: 1000 !important;
+  --background: linear-gradient(135deg, #667eea, #764ba2) !important;
+  --color: white !important;
+  --border-radius: 50% !important;
+  --padding-start: 0 !important;
+  --padding-end: 0 !important;
+  --padding-top: 0 !important;
+  --padding-bottom: 0 !important;
+  --border-width: 0 !important;
+  --box-shadow: none !important;
+  width: 56px !important;
+  height: 56px !important;
+  min-width: 56px !important;
+  min-height: 56px !important;
+  max-width: 56px !important;
+  max-height: 56px !important;
+  border-radius: 50% !important;
+  background: linear-gradient(135deg, #667eea, #764ba2) !important;
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+}
+
+.floating-save-button:hover {
+  transform: scale(1.08) !important;
+  box-shadow: 0 6px 24px rgba(118, 75, 162, 0.5) !important;
+}
+
+.floating-save-button:active {
+  transform: scale(0.94) !important;
+}
+
+.floating-save-button ion-icon {
+  font-size: 24px !important;
+  color: white !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.floating-save-button ion-spinner {
+  color: white !important;
+}
+
 .hero-section {
   position: relative;
   height: 300px;
